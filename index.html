@@ -2,220 +2,182 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Delhi Ramadan Live</title>
+<title>Delhi Ramadan 2026 - Arshad Khan</title>
 
 <style>
-*{
+body{
+font-family:Arial, sans-serif;
+background:#ffffff;
 margin:0;
 padding:0;
-box-sizing:border-box;
-font-family:Arial, sans-serif;
-}
-
-body{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-color:white;
-overflow:hidden;
-background:linear-gradient(#0b1437, #020617);
-}
-
-/* 🌟 Stars */
-.stars{
-position:absolute;
-width:100%;
-height:100%;
-background:transparent;
-box-shadow:
-50px 80px white,
-150px 200px white,
-300px 150px white,
-500px 300px white,
-700px 100px white,
-900px 250px white,
-1100px 400px white,
-1300px 150px white,
-1600px 350px white;
-animation:twinkle 2s infinite alternate;
-}
-
-@keyframes twinkle{
-from{opacity:0.4;}
-to{opacity:1;}
-}
-
-/* 🔴 LIVE */
-.live-box{
-position:absolute;
-top:20px;
-right:20px;
-background:black;
-padding:10px 20px;
-border-radius:10px;
-}
-
-.live{
-color:#ff0000;
-font-size:28px;
-font-weight:bold;
-animation:pulse 1.5s infinite;
-}
-
-@keyframes pulse{
-0%{opacity:1;}
-50%{opacity:0.5;}
-100%{opacity:1;}
-}
-
-/* Container */
-.container{
 text-align:center;
-z-index:2;
+}
+
+.container{
+max-width:900px;
+margin:auto;
+padding:30px;
 }
 
 h1{
-font-size:60px;
-color:#ffd700;
-margin-bottom:20px;
+font-size:38px;
+margin-bottom:10px;
 }
 
-#eventTitle{
-font-size:40px;
-margin-bottom:20px;
-}
-
-#fixedTime{
-font-size:35px;
-color:#00ff66;
-margin-bottom:20px;
-font-weight:bold;
-}
-
-#countdown{
-font-size:180px;
-font-weight:900;
-color:white;
-text-shadow:0 0 20px white;
-margin-bottom:20px;
-transition:0.5s;
-}
-
-.warning{
-animation:flash 0.8s infinite;
-}
-
-@keyframes flash{
-0%{color:white;}
-50%{color:#ff0000;}
-100%{color:white;}
-}
-
-#food{
-font-size:80px;
-margin-bottom:20px;
-}
-
-.owner{
-font-size:55px;
-color:#ffd700;
-font-weight:bold;
+.basket{
+background:#f5e6cc;
+border-radius:20px;
+padding:25px;
+box-shadow:0 8px 25px rgba(0,0,0,0.15);
 margin-top:20px;
 }
 
-/* Mobile */
+.date{
+font-size:22px;
+margin-bottom:15px;
+font-weight:bold;
+}
+
+.time-box{
+font-size:26px;
+margin:8px 0;
+}
+
+.sehri{
+color:#008000;
+font-weight:bold;
+}
+
+.iftar{
+color:#cc0000;
+font-weight:bold;
+}
+
+.countdown{
+font-size:55px;
+font-weight:bold;
+margin-top:20px;
+color:#000000;
+}
+
+.buttons{
+margin-top:20px;
+}
+
+button{
+padding:10px 20px;
+font-size:16px;
+margin:5px;
+cursor:pointer;
+border:none;
+border-radius:6px;
+background:#000;
+color:#fff;
+}
+
+button:hover{
+background:#444;
+}
+
+.owner{
+margin-top:30px;
+font-size:22px;
+font-weight:bold;
+}
+
 @media(max-width:768px){
-h1{font-size:35px;}
-#eventTitle{font-size:25px;}
-#fixedTime{font-size:20px;}
-#countdown{font-size:80px;}
-#food{font-size:45px;}
-.owner{font-size:30px;}
-.live{font-size:18px;}
+.countdown{font-size:35px;}
+h1{font-size:26px;}
 }
 </style>
 </head>
 
 <body>
 
-<div class="stars"></div>
-
-<div class="live-box">
-<span class="live">🔴 LIVE</span>
-</div>
-
 <div class="container">
 
-<h1>🕌 Delhi Ramadan Live</h1>
+<h1>🕌 Delhi Ramadan 2026</h1>
 
-<div id="eventTitle"></div>
-<div id="fixedTime"></div>
-<div id="countdown"></div>
+<div class="basket">
 
-<div id="food">🍎 🍉 🥤 🌴</div>
+<div class="date" id="dateDisplay"></div>
 
-<div class="owner">Arshad Khan</div>
+<div class="time-box sehri" id="sehriTime"></div>
+<div class="time-box iftar" id="iftarTime"></div>
+
+<div class="countdown" id="countdown"></div>
+
+<div class="buttons">
+<button onclick="prevDay()">Previous</button>
+<button onclick="nextDay()">Next</button>
+</div>
+
+</div>
+
+<div class="owner">Website by Arshad Khan</div>
 
 </div>
 
 <script>
 
-function updateTime(){
+const ramadanData = [
+{date:"2026-02-19", sehri:"05:37", iftar:"18:14"},
+{date:"2026-02-20", sehri:"05:36", iftar:"18:15"},
+{date:"2026-02-21", sehri:"05:35", iftar:"18:15"},
+{date:"2026-02-22", sehri:"05:35", iftar:"18:16"},
+{date:"2026-02-23", sehri:"05:34", iftar:"18:17"},
+{date:"2026-02-24", sehri:"05:33", iftar:"18:17"},
+{date:"2026-02-25", sehri:"05:32", iftar:"18:18"},
+{date:"2026-02-26", sehri:"05:31", iftar:"18:19"},
+{date:"2026-02-27", sehri:"05:30", iftar:"18:19"},
+{date:"2026-02-28", sehri:"05:29", iftar:"18:20"},
+{date:"2026-03-01", sehri:"05:28", iftar:"18:21"},
+{date:"2026-03-02", sehri:"05:27", iftar:"18:21"},
+{date:"2026-03-03", sehri:"05:26", iftar:"18:22"},
+{date:"2026-03-04", sehri:"05:25", iftar:"18:23"},
+{date:"2026-03-05", sehri:"05:24", iftar:"18:23"},
+{date:"2026-03-06", sehri:"05:23", iftar:"18:24"},
+{date:"2026-03-07", sehri:"05:22", iftar:"18:24"},
+{date:"2026-03-08", sehri:"05:21", iftar:"18:25"},
+{date:"2026-03-09", sehri:"05:20", iftar:"18:26"},
+{date:"2026-03-10", sehri:"05:19", iftar:"18:26"},
+{date:"2026-03-11", sehri:"05:17", iftar:"18:27"},
+{date:"2026-03-12", sehri:"05:16", iftar:"18:27"},
+{date:"2026-03-13", sehri:"05:15", iftar:"18:28"},
+{date:"2026-03-14", sehri:"05:14", iftar:"18:29"},
+{date:"2026-03-15", sehri:"05:13", iftar:"18:29"},
+{date:"2026-03-16", sehri:"05:12", iftar:"18:30"},
+{date:"2026-03-17", sehri:"05:10", iftar:"18:30"},
+{date:"2026-03-18", sehri:"05:09", iftar:"18:31"},
+{date:"2026-03-19", sehri:"05:08", iftar:"18:32"}
+];
 
-let now = new Date();
+let today = new Date().toISOString().split("T")[0];
+let index = ramadanData.findIndex(d => d.date === today);
+if(index === -1) index = 0;
 
-let sehri = new Date();
-sehri.setHours(5,0,0,0);
-
-let iftar = new Date();
-iftar.setHours(18,20,0,0);
-
-let target;
-let title;
-let fixed;
-
-if(now < sehri){
-target = sehri;
-title = "🌅 Sehri Coming Soon";
-fixed = "Fixed Time: 5:00 AM";
-}
-else if(now >= sehri && now < iftar){
-target = iftar;
-title = "🌙 Iftar Coming Soon";
-fixed = "Fixed Time: 6:20 PM";
-}
-else{
-sehri.setDate(sehri.getDate()+1);
-target = sehri;
-title = "🌅 Sehri Coming Soon";
-fixed = "Fixed Time: 5:00 AM";
-}
-
-let diff = target - now;
-
-let h = Math.floor(diff/(1000*60*60));
-let m = Math.floor((diff%(1000*60*60))/(1000*60));
-let s = Math.floor((diff%(1000*60))/1000);
-
-let countdown = document.getElementById("countdown");
-
-countdown.innerHTML = h+"h "+m+"m "+s+"s";
-
-document.getElementById("eventTitle").innerHTML = title;
-document.getElementById("fixedTime").innerHTML = fixed;
-
-/* ⚠️ 1 मिनट बाकी */
-if(diff <= 60000){
-countdown.classList.add("warning");
-}else{
-countdown.classList.remove("warning");
+function displayDay(){
+let data = ramadanData[index];
+document.getElementById("dateDisplay").innerHTML = data.date;
+document.getElementById("sehriTime").innerHTML = "Sehri: " + data.sehri;
+document.getElementById("iftarTime").innerHTML = "Iftar: " + data.iftar;
 }
 
+function nextDay(){
+if(index < ramadanData.length-1){
+index++;
+displayDay();
+}
 }
 
-updateTime();
-setInterval(updateTime,1000);
+function prevDay(){
+if(index > 0){
+index--;
+displayDay();
+}
+}
+
+displayDay();
 
 </script>
 
