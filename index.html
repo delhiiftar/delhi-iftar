@@ -1,52 +1,139 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Delhi Iftar Live Countdown</title>
-  <style>
-    body {
-      text-align: center;
-      font-family: Arial, sans-serif;
-      background: #0d1b2a;
-      color: white;
-      padding-top: 50px;
-    }
-    .box {
-      background: #1b263b;
-      padding: 25px;
-      border-radius: 15px;
-      display: inline-block;
-      box-shadow: 0 0 15px rgba(255,255,255,0.1);
-    }
-    h1 {
-      color: #ffd60a;
-    }
-    #countdown {
-      font-size: 28px;
-      margin-top: 15px;
-    }
-  </style>
+<title>Delhi Iftar Live Countdown</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-family: Arial, sans-serif;
+    color:white;
+    background:
+        linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.8)),
+        url('https://upload.wikimedia.org/wikipedia/commons/3/3e/Jama_Masjid_Delhi.jpg');
+    background-size:cover;
+    background-position:center;
+    position:relative;
+    overflow:hidden;
+}
+
+/* 🌙 Moving Moon */
+.moon{
+    position:absolute;
+    top:8%;
+    left:-100px;
+    width:80px;
+    height:80px;
+    background:radial-gradient(circle at 30% 30%, #fff, #ddd);
+    border-radius:50%;
+    box-shadow:0 0 30px #fff, 0 0 60px #ffd60a;
+    animation:moveMoon 40s linear infinite;
+}
+
+@keyframes moveMoon{
+    from{left:-100px;}
+    to{left:110%;}
+}
+
+.box{
+    text-align:center;
+    padding:35px;
+    width:90%;
+    max-width:420px;
+    background:rgba(0,0,0,0.6);
+    border-radius:25px;
+    backdrop-filter:blur(8px);
+    box-shadow:0 0 40px rgba(255,214,10,0.6);
+    position:relative;
+    z-index:1;
+}
+
+h1{
+    font-size:22px;
+    margin-bottom:10px;
+    color:#ffd60a;
+}
+
+/* Festival message */
+.festival{
+    font-size:20px;
+    font-weight:bold;
+    margin:10px 0;
+    animation:glow 2s infinite alternate;
+}
+
+@keyframes glow{
+    from{color:#ffd60a;}
+    to{color:#00ffcc;}
+}
+
+#countdown{
+    font-size:55px;
+    font-weight:bold;
+    margin-top:15px;
+}
+
+.owner{
+    margin-top:20px;
+    font-size:14px;
+    opacity:0.7;
+}
+</style>
 </head>
+
 <body>
 
+<div class="moon"></div>
+
 <div class="box">
-  <h1>🌙 Delhi Iftar Countdown</h1>
-  <h2>Today's Iftar Time: 6:20 PM</h2>
-  <div id="countdown"></div>
+    <h1>🕌 Delhi Iftar Countdown</h1>
+    <div id="festivalMessage" class="festival"></div>
+    <div id="countdown"></div>
+    <div class="owner">Website by Arshad Khan</div>
 </div>
 
 <script>
-  let iftar = new Date();
-  iftar.setHours(18);
-  iftar.setMinutes(20);
-  iftar.setSeconds(0);
 
-  function updateCountdown() {
+// 🌙 Ramzan & Eid Logic
+let today = new Date();
+let ramzanStart = new Date(2026, 1, 19); // 19 Feb 2026
+let eidDate = new Date(2026, 2, 20);     // Example Eid date
+
+let festivalText = "";
+
+if(today >= ramzanStart && today < eidDate){
+    festivalText = "🌙 Ramzan Mubarak 🌙";
+}
+else if(today.toDateString() === eidDate.toDateString()){
+    festivalText = "✨ Eid Mubarak ✨";
+}
+
+document.getElementById("festivalMessage").innerHTML = festivalText;
+
+
+// ⏰ Iftar Countdown
+let iftar = new Date();
+iftar.setHours(18);
+iftar.setMinutes(20);
+iftar.setSeconds(0);
+
+function updateCountdown(){
+
     let now = new Date();
     let diff = iftar - now;
 
-    if (diff <= 0) {
-      document.getElementById("countdown").innerHTML = "Iftar Time! 🌙";
-      return;
+    if(diff <= 0){
+        document.getElementById("countdown").innerHTML = "🌙 Iftar Time ❤️";
+        return;
     }
 
     let hours = Math.floor(diff / (1000 * 60 * 60));
@@ -54,10 +141,11 @@
     let seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
     document.getElementById("countdown").innerHTML =
-      hours + "h " + minutes + "m " + seconds + "s";
-  }
+    hours + "h " + minutes + "m " + seconds + "s";
+}
 
-  setInterval(updateCountdown, 1000);
+setInterval(updateCountdown,1000);
+
 </script>
 
 </body>
