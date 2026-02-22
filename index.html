@@ -2,13 +2,14 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Delhi Ramadan Live</title>
+<title>Delhi Ramadan Live Premium</title>
 
 <style>
 *{
 margin:0;
 padding:0;
 box-sizing:border-box;
+font-family:Arial, sans-serif;
 }
 
 body{
@@ -16,136 +17,144 @@ height:100vh;
 display:flex;
 justify-content:center;
 align-items:center;
-font-family:Arial, sans-serif;
 color:white;
 background:
-linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.8)),
+linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.7)),
 url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Jama_Masjid_Delhi.jpg/1920px-Jama_Masjid_Delhi.jpg');
 background-size:cover;
 background-position:center;
+background-attachment:fixed;
 overflow:hidden;
 }
 
-/* 🌙 Moon */
+/* 🔴 LIVE Pulse Badge */
+.live-badge{
+position:absolute;
+top:25px;
+right:25px;
+background:#ff0000;
+color:white;
+padding:14px 30px;
+font-size:30px;
+font-weight:bold;
+border-radius:50px;
+box-shadow:0 0 20px red;
+animation:pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+0%{
+transform:scale(1);
+box-shadow:0 0 10px red, 0 0 20px red;
+}
+50%{
+transform:scale(1.15);
+box-shadow:0 0 30px red, 0 0 60px red;
+}
+100%{
+transform:scale(1);
+box-shadow:0 0 10px red, 0 0 20px red;
+}
+}
+
+/* Moon */
 .moon{
 position:absolute;
 top:5%;
-left:-150px;
-width:130px;
-height:130px;
+left:-200px;
+width:180px;
+height:180px;
 background:radial-gradient(circle at 30% 30%, #fff, #ddd);
 border-radius:50%;
-box-shadow:0 0 40px #fff, 0 0 80px #ffd60a;
-animation:moveMoon 60s linear infinite;
+box-shadow:0 0 50px #fff, 0 0 120px #ffd60a;
+animation:moveMoon 80s linear infinite;
 }
 
 @keyframes moveMoon{
-from{left:-150px;}
+from{left:-200px;}
 to{left:120%;}
 }
 
-.box{
-text-align:center;
-padding:50px;
+.container{
 width:95%;
-max-width:700px;
+max-width:1200px;
+text-align:center;
 background:rgba(0,0,0,0.6);
-border-radius:30px;
-backdrop-filter:blur(10px);
-box-shadow:0 0 60px rgba(255,214,10,0.7);
+padding:80px;
+border-radius:50px;
+backdrop-filter:blur(15px);
+box-shadow:0 0 100px rgba(255,0,0,0.7);
 }
 
 h1{
-font-size:34px;
+font-size:70px;
 color:#ffd60a;
-margin-bottom:10px;
+margin-bottom:25px;
 }
 
-.festival{
-font-size:26px;
-margin:15px 0;
-animation:glow 2s infinite alternate;
+#eventTitle{
+font-size:55px;
+margin-bottom:20px;
 }
 
-@keyframes glow{
-from{color:#ffd60a;}
-to{color:#00ffcc;}
-}
-
-#eventName{
-font-size:28px;
-margin-top:15px;
+#fixedTime{
+font-size:42px;
+color:#00ffcc;
+margin-bottom:30px;
 }
 
 #countdown{
-font-size:120px;
+font-size:170px;
 font-weight:bold;
-margin-top:20px;
+margin-bottom:30px;
+color:#ff0000;
+text-shadow:0 0 25px red, 0 0 60px red;
 }
 
-.owner{
-margin-top:30px;
-font-size:18px;
-opacity:0.8;
-}
-
-/* Iftar Scene */
-#iftarScene{
-display:none;
-margin-top:25px;
-animation:fadeIn 2s ease-in-out;
-}
-
-.people{
-font-size:60px;
-margin-bottom:15px;
-}
-
-.dastarkhan{
-font-size:55px;
-margin-bottom:10px;
+#food{
+font-size:100px;
+margin-bottom:20px;
 animation:bounce 1.5s infinite;
-}
-
-.iftarText{
-font-size:45px;
-color:#ffd60a;
-animation:glow 1.5s infinite alternate;
 }
 
 @keyframes bounce{
 0%{transform:translateY(0);}
-50%{transform:translateY(-12px);}
+50%{transform:translateY(-15px);}
 100%{transform:translateY(0);}
 }
 
-@keyframes fadeIn{
-from{opacity:0;}
-to{opacity:1;}
+.owner{
+margin-top:30px;
+font-size:45px;
+color:#ffd60a;
 }
 
+@media(max-width:768px){
+h1{font-size:45px;}
+#eventTitle{font-size:32px;}
+#fixedTime{font-size:24px;}
+#countdown{font-size:85px;}
+#food{font-size:55px;}
+.owner{font-size:30px;}
+.live-badge{font-size:18px;padding:8px 15px;}
+}
 </style>
 </head>
 
 <body>
 
+<div class="live-badge">🔴 LIVE</div>
 <div class="moon"></div>
 
-<div class="box">
+<div class="container">
 
 <h1>🕌 Delhi Ramadan Live</h1>
 
-<div id="festivalMessage" class="festival"></div>
-
-<div id="eventName"></div>
-
+<div id="eventTitle"></div>
+<div id="fixedTime"></div>
 <div id="countdown"></div>
 
-<div id="iftarScene">
-<div class="people">🧑🏻‍🦱  🧔🏻  👳🏻</div>
-<div class="dastarkhan">🥙 🥤 🌴 🍉</div>
-<div class="iftarText">🌙 Iftar Time ❤️</div>
-</div>
+<div id="food">🍎 🍉 🥤 🌴</div>
 
 <div class="owner">Website by Arshad Khan</div>
 
@@ -153,47 +162,36 @@ to{opacity:1;}
 
 <script>
 
-// 🌙 Ramzan & Eid Dates
-let today = new Date();
-let ramzanStart = new Date(2026,1,19);
-let eidDate = new Date(2026,2,20);
-
-if(today >= ramzanStart && today < eidDate){
-document.getElementById("festivalMessage").innerHTML="🌙 Ramzan Mubarak 🌙";
-}
-else if(today.toDateString()===eidDate.toDateString()){
-document.getElementById("festivalMessage").innerHTML="✨ Eid Mubarak ✨";
-}
-
-// ⏰ Auto Sehri + Iftar System
 function updateTime(){
 
 let now = new Date();
 
 let sehri = new Date();
-sehri.setHours(5,0,0);
+sehri.setHours(5,0,0,0);
 
 let iftar = new Date();
-iftar.setHours(18,20,0);
+iftar.setHours(18,20,0,0);
 
 let target;
-let eventText;
+let title;
+let fixed;
 
 if(now < sehri){
 target = sehri;
-eventText = "🌅 Sehri Countdown";
+title = "🌅 Sehri Coming Soon";
+fixed = "Fixed Time: 5:00 AM";
 }
 else if(now >= sehri && now < iftar){
 target = iftar;
-eventText = "🌙 Iftar Countdown";
+title = "🌙 Iftar Coming Soon";
+fixed = "Fixed Time: 6:20 PM";
 }
 else{
 sehri.setDate(sehri.getDate()+1);
 target = sehri;
-eventText = "🌅 Sehri Countdown";
+title = "🌅 Sehri Coming Soon";
+fixed = "Fixed Time: 5:00 AM";
 }
-
-document.getElementById("eventName").innerHTML = eventText;
 
 let diff = target - now;
 
@@ -201,20 +199,14 @@ let h = Math.floor(diff/(1000*60*60));
 let m = Math.floor((diff%(1000*60*60))/(1000*60));
 let s = Math.floor((diff%(1000*60))/1000);
 
+document.getElementById("eventTitle").innerHTML = title;
+document.getElementById("fixedTime").innerHTML = fixed;
 document.getElementById("countdown").innerHTML =
 h+"h "+m+"m "+s+"s";
 
-// 🌙 Iftar Scene Show
-if(now >= iftar && now < new Date(iftar.getTime()+600000)){
-document.getElementById("countdown").style.display="none";
-document.getElementById("iftarScene").style.display="block";
-}else{
-document.getElementById("countdown").style.display="block";
-document.getElementById("iftarScene").style.display="none";
 }
 
-}
-
+updateTime();
 setInterval(updateTime,1000);
 
 </script>
