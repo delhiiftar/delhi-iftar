@@ -2,62 +2,52 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Delhi Ramadan 2026 - Arshad Khan</title>
+<title>Delhi Ramadan 2026</title>
 
 <style>
 body{
+margin:0;
 font-family:Arial, sans-serif;
 background:#ffffff;
-margin:0;
-padding:0;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
 text-align:center;
 }
 
 .container{
+width:95%;
 max-width:900px;
-margin:auto;
-padding:30px;
+padding:40px;
+box-shadow:0 0 40px rgba(0,0,0,0.15);
+border-radius:20px;
 }
 
 h1{
-font-size:38px;
+font-size:45px;
 margin-bottom:10px;
 }
 
-.basket{
-background:#f5e6cc;
-border-radius:20px;
-padding:25px;
-box-shadow:0 8px 25px rgba(0,0,0,0.15);
-margin-top:20px;
-}
-
 .date{
-font-size:22px;
+font-size:24px;
 margin-bottom:15px;
 font-weight:bold;
 }
 
-.time-box{
-font-size:26px;
-margin:8px 0;
+.time{
+font-size:28px;
+margin:5px 0;
 }
 
-.sehri{
-color:#008000;
-font-weight:bold;
-}
-
-.iftar{
-color:#cc0000;
-font-weight:bold;
-}
+.sehri{color:green;font-weight:bold;}
+.iftar{color:red;font-weight:bold;}
 
 .countdown{
-font-size:55px;
+font-size:80px;
 font-weight:bold;
 margin-top:20px;
-color:#000000;
+color:black;
 }
 
 .buttons{
@@ -66,28 +56,20 @@ margin-top:20px;
 
 button{
 padding:10px 20px;
-font-size:16px;
 margin:5px;
+font-size:16px;
 cursor:pointer;
-border:none;
-border-radius:6px;
-background:#000;
-color:#fff;
-}
-
-button:hover{
-background:#444;
 }
 
 .owner{
-margin-top:30px;
+margin-top:20px;
 font-size:22px;
 font-weight:bold;
 }
 
 @media(max-width:768px){
-.countdown{font-size:35px;}
-h1{font-size:26px;}
+h1{font-size:30px;}
+.countdown{font-size:45px;}
 }
 </style>
 </head>
@@ -98,20 +80,16 @@ h1{font-size:26px;}
 
 <h1>🕌 Delhi Ramadan 2026</h1>
 
-<div class="basket">
-
 <div class="date" id="dateDisplay"></div>
 
-<div class="time-box sehri" id="sehriTime"></div>
-<div class="time-box iftar" id="iftarTime"></div>
+<div class="time sehri" id="sehriTime"></div>
+<div class="time iftar" id="iftarTime"></div>
 
 <div class="countdown" id="countdown"></div>
 
 <div class="buttons">
 <button onclick="prevDay()">Previous</button>
 <button onclick="nextDay()">Next</button>
-</div>
-
 </div>
 
 <div class="owner">Website by Arshad Khan</div>
@@ -163,6 +141,27 @@ document.getElementById("sehriTime").innerHTML = "Sehri: " + data.sehri;
 document.getElementById("iftarTime").innerHTML = "Iftar: " + data.iftar;
 }
 
+function updateCountdown(){
+let now = new Date();
+let data = ramadanData[index];
+
+let targetTime = new Date(data.date + "T" + data.iftar + ":00");
+
+if(now > targetTime){
+targetTime = new Date(data.date + "T" + data.sehri + ":00");
+targetTime.setDate(targetTime.getDate()+1);
+}
+
+let diff = targetTime - now;
+
+let h = Math.floor(diff/(1000*60*60));
+let m = Math.floor((diff%(1000*60*60))/(1000*60));
+let s = Math.floor((diff%(1000*60))/1000);
+
+document.getElementById("countdown").innerHTML =
+h+"h "+m+"m "+s+"s";
+}
+
 function nextDay(){
 if(index < ramadanData.length-1){
 index++;
@@ -178,6 +177,8 @@ displayDay();
 }
 
 displayDay();
+updateCountdown();
+setInterval(updateCountdown,1000);
 
 </script>
 
