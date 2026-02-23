@@ -5,76 +5,111 @@
 <title>Delhi Ramadan 2026</title>
 
 <style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial, sans-serif;}
+
 body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#ffffff;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+background:#f5f5f5;
 text-align:center;
 }
 
+/* Top Mosque Image */
+.header{
+width:100%;
+height:250px;
+background:url('https://images.unsplash.com/photo-1584556812952-905ffd0c611a?q=80&w=1600') no-repeat center;
+background-size:cover;
+}
+
+/* LIVE badge */
+.live{
+position:absolute;
+top:20px;
+right:20px;
+background:red;
+color:white;
+padding:10px 20px;
+font-weight:bold;
+border-radius:30px;
+animation:pulse 1s infinite;
+font-size:18px;
+}
+
+@keyframes pulse{
+0%{box-shadow:0 0 0 0 rgba(255,0,0,0.7);}
+70%{box-shadow:0 0 0 15px rgba(255,0,0,0);}
+100%{box-shadow:0 0 0 0 rgba(255,0,0,0);}
+}
+
+/* Main Section */
 .container{
-width:95%;
-max-width:900px;
-padding:40px;
-box-shadow:0 0 40px rgba(0,0,0,0.15);
-border-radius:20px;
+margin-top:-60px;
+padding:20px;
+position:relative;
 }
 
-h1{
-font-size:45px;
-margin-bottom:10px;
-}
-
+/* Date */
 .date{
-font-size:24px;
-margin-bottom:15px;
-font-weight:bold;
-}
-
-.time{
 font-size:28px;
-margin:5px 0;
-}
-
-.sehri{color:green;font-weight:bold;}
-.iftar{color:red;font-weight:bold;}
-
-.countdown{
-font-size:80px;
+margin:10px 0;
 font-weight:bold;
-margin-top:20px;
-color:black;
 }
 
-.buttons{
-margin-top:20px;
+/* Date Basket Background */
+.basket{
+background:url('https://images.unsplash.com/photo-1604908176997-125f37a6d87a?q=80&w=800') no-repeat center;
+background-size:contain;
+height:250px;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
 }
 
+/* Fixed Time */
+.fixed{
+font-size:30px;
+color:green;
+font-weight:bold;
+}
+
+/* Countdown */
+.countdown{
+font-size:70px;
+color:white;
+font-weight:bold;
+text-shadow:2px 2px 10px black;
+}
+
+/* Buttons */
 button{
 padding:10px 20px;
-margin:5px;
+margin:15px 5px;
 font-size:16px;
 cursor:pointer;
 }
 
+/* Owner */
 .owner{
-margin-top:20px;
-font-size:22px;
+font-size:28px;
 font-weight:bold;
+margin-top:20px;
+color:#111;
 }
 
+/* Mobile */
 @media(max-width:768px){
-h1{font-size:30px;}
 .countdown{font-size:45px;}
+.fixed{font-size:22px;}
+.owner{font-size:22px;}
 }
 </style>
 </head>
 
 <body>
+
+<div class="header"></div>
+
+<div class="live">LIVE</div>
 
 <div class="container">
 
@@ -82,12 +117,12 @@ h1{font-size:30px;}
 
 <div class="date" id="dateDisplay"></div>
 
-<div class="time sehri" id="sehriTime"></div>
-<div class="time iftar" id="iftarTime"></div>
-
+<div class="basket">
+<div class="fixed" id="fixedTime"></div>
 <div class="countdown" id="countdown"></div>
+</div>
 
-<div class="buttons">
+<div>
 <button onclick="prevDay()">Previous</button>
 <button onclick="nextDay()">Next</button>
 </div>
@@ -98,83 +133,72 @@ h1{font-size:30px;}
 
 <script>
 
-const ramadanData = [
-{date:"2026-02-19", sehri:"05:37", iftar:"18:14"},
-{date:"2026-02-20", sehri:"05:36", iftar:"18:15"},
-{date:"2026-02-21", sehri:"05:35", iftar:"18:15"},
-{date:"2026-02-22", sehri:"05:35", iftar:"18:16"},
-{date:"2026-02-23", sehri:"05:34", iftar:"18:17"},
-{date:"2026-02-24", sehri:"05:33", iftar:"18:17"},
-{date:"2026-02-25", sehri:"05:32", iftar:"18:18"},
-{date:"2026-02-26", sehri:"05:31", iftar:"18:19"},
-{date:"2026-02-27", sehri:"05:30", iftar:"18:19"},
-{date:"2026-02-28", sehri:"05:29", iftar:"18:20"},
-{date:"2026-03-01", sehri:"05:28", iftar:"18:21"},
-{date:"2026-03-02", sehri:"05:27", iftar:"18:21"},
-{date:"2026-03-03", sehri:"05:26", iftar:"18:22"},
-{date:"2026-03-04", sehri:"05:25", iftar:"18:23"},
-{date:"2026-03-05", sehri:"05:24", iftar:"18:23"},
-{date:"2026-03-06", sehri:"05:23", iftar:"18:24"},
-{date:"2026-03-07", sehri:"05:22", iftar:"18:24"},
-{date:"2026-03-08", sehri:"05:21", iftar:"18:25"},
-{date:"2026-03-09", sehri:"05:20", iftar:"18:26"},
-{date:"2026-03-10", sehri:"05:19", iftar:"18:26"},
-{date:"2026-03-11", sehri:"05:17", iftar:"18:27"},
-{date:"2026-03-12", sehri:"05:16", iftar:"18:27"},
-{date:"2026-03-13", sehri:"05:15", iftar:"18:28"},
-{date:"2026-03-14", sehri:"05:14", iftar:"18:29"},
-{date:"2026-03-15", sehri:"05:13", iftar:"18:29"},
-{date:"2026-03-16", sehri:"05:12", iftar:"18:30"},
-{date:"2026-03-17", sehri:"05:10", iftar:"18:30"},
-{date:"2026-03-18", sehri:"05:09", iftar:"18:31"},
-{date:"2026-03-19", sehri:"05:08", iftar:"18:32"}
+const ramadanData=[
+{date:"2026-02-22",sehri:"05:35",iftar:"18:16"},
+{date:"2026-02-23",sehri:"05:34",iftar:"18:17"},
+{date:"2026-02-24",sehri:"05:33",iftar:"18:17"},
+{date:"2026-02-25",sehri:"05:32",iftar:"18:18"},
+{date:"2026-02-26",sehri:"05:31",iftar:"18:19"},
+{date:"2026-02-27",sehri:"05:30",iftar:"18:19"},
+{date:"2026-02-28",sehri:"05:29",iftar:"18:20"},
+{date:"2026-03-01",sehri:"05:28",iftar:"18:21"},
+{date:"2026-03-02",sehri:"05:27",iftar:"18:21"},
+{date:"2026-03-03",sehri:"05:26",iftar:"18:22"},
+{date:"2026-03-04",sehri:"05:25",iftar:"18:23"},
+{date:"2026-03-05",sehri:"05:24",iftar:"18:23"},
+{date:"2026-03-06",sehri:"05:23",iftar:"18:24"},
+{date:"2026-03-07",sehri:"05:22",iftar:"18:24"},
+{date:"2026-03-08",sehri:"05:21",iftar:"18:25"},
+{date:"2026-03-09",sehri:"05:20",iftar:"18:26"},
+{date:"2026-03-10",sehri:"05:19",iftar:"18:26"},
+{date:"2026-03-11",sehri:"05:17",iftar:"18:27"},
+{date:"2026-03-12",sehri:"05:16",iftar:"18:27"},
+{date:"2026-03-13",sehri:"05:15",iftar:"18:28"},
+{date:"2026-03-14",sehri:"05:14",iftar:"18:29"},
+{date:"2026-03-15",sehri:"05:13",iftar:"18:29"},
+{date:"2026-03-16",sehri:"05:12",iftar:"18:30"},
+{date:"2026-03-17",sehri:"05:10",iftar:"18:30"},
+{date:"2026-03-18",sehri:"05:09",iftar:"18:31"},
+{date:"2026-03-19",sehri:"05:08",iftar:"18:32"}
 ];
 
-let today = new Date().toISOString().split("T")[0];
-let index = ramadanData.findIndex(d => d.date === today);
-if(index === -1) index = 0;
+let today=new Date().toISOString().split("T")[0];
+let index=ramadanData.findIndex(d=>d.date===today);
+if(index===-1)index=0;
 
 function displayDay(){
-let data = ramadanData[index];
-document.getElementById("dateDisplay").innerHTML = data.date;
-document.getElementById("sehriTime").innerHTML = "Sehri: " + data.sehri;
-document.getElementById("iftarTime").innerHTML = "Iftar: " + data.iftar;
+let data=ramadanData[index];
+document.getElementById("dateDisplay").innerHTML=data.date;
 }
 
 function updateCountdown(){
-let now = new Date();
-let data = ramadanData[index];
+let now=new Date();
+let data=ramadanData[index];
 
-let targetTime = new Date(data.date + "T" + data.iftar + ":00");
+let target=new Date(data.date+"T"+data.iftar+":00");
+let label="Iftar";
 
-if(now > targetTime){
-targetTime = new Date(data.date + "T" + data.sehri + ":00");
-targetTime.setDate(targetTime.getDate()+1);
+if(now>target){
+target=new Date(data.date+"T"+data.sehri+":00");
+target.setDate(target.getDate()+1);
+label="Sehri";
 }
 
-let diff = targetTime - now;
+let diff=target-now;
 
-let h = Math.floor(diff/(1000*60*60));
-let m = Math.floor((diff%(1000*60*60))/(1000*60));
-let s = Math.floor((diff%(1000*60))/1000);
+let h=Math.floor(diff/(1000*60*60));
+let m=Math.floor((diff%(1000*60*60))/(1000*60));
+let s=Math.floor((diff%(1000*60))/1000);
 
-document.getElementById("countdown").innerHTML =
+document.getElementById("fixedTime").innerHTML=
+label+" Time: "+(label==="Iftar"?data.iftar:data.sehri);
+
+document.getElementById("countdown").innerHTML=
 h+"h "+m+"m "+s+"s";
 }
 
-function nextDay(){
-if(index < ramadanData.length-1){
-index++;
-displayDay();
-}
-}
-
-function prevDay(){
-if(index > 0){
-index--;
-displayDay();
-}
-}
+function nextDay(){if(index<ramadanData.length-1){index++;displayDay();}}
+function prevDay(){if(index>0){index--;displayDay();}}
 
 displayDay();
 updateCountdown();
