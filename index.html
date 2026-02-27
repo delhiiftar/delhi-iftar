@@ -1,13 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramadan Global Prayer Time</title>
 
-<meta name="description" content="Check Sehri & Iftar time in your city. Islamic duas, Hijri date and more.">
+<title>Ramadan Prayer & Qibla Guide</title>
 
+<!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XSFHJH6TFL"></script>
 <script>
 window.dataLayer = window.dataLayer || [];
@@ -17,415 +16,280 @@ gtag('config', 'G-XSFHJH6TFL');
 </script>
 
 <style>
+
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:#f5f7f6;
-color:#222;
+font-family: 'Segoe UI', sans-serif;
+background:#f5f1e8;
+color:#1e3d2f;
 }
 
+/* HERO */
 .hero{
-background:url('https://images.unsplash.com/photo-1591608516485-89d5d6b9b7c5') no-repeat center center/cover;
-height:300px;
+background:linear-gradient(rgba(0,80,40,0.7),rgba(0,80,40,0.7)),
+url('https://cdn.pixabay.com/photo/2016/11/29/04/17/masjid-1869560_1280.jpg') center/cover no-repeat;
+height:350px;
 display:flex;
-align-items:center;
+flex-direction:column;
 justify-content:center;
+align-items:center;
+text-align:center;
 color:white;
-text-align:center;
-position:relative;
-}
-
-.hero::after{
-content:"";
-position:absolute;
-top:0;
-left:0;
-right:0;
-bottom:0;
-background:rgba(0,0,0,0.6);
-}
-
-.hero-content{
-position:relative;
-z-index:2;
-}
-
-h1{
-margin:0;
-font-size:28px;
-}
-
-.section{
 padding:20px;
-text-align:center;
+}
+
+.hero h1{
+font-size:28px;
+margin:0;
+}
+
+.hero p{
+margin:5px 0;
+}
+
+/* CARD */
+.section{
+max-width:1000px;
+margin:auto;
+padding:20px;
 }
 
 .card{
 background:white;
-display:inline-block;
-padding:15px 25px;
-margin:10px;
+padding:20px;
+border-radius:15px;
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
+margin-bottom:25px;
+}
+
+h2{
+margin-top:0;
+color:#0f5132;
+}
+
+/* MOSQUE GRID */
+.grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+}
+
+.mosque img{
+width:100%;
+height:220px;
+object-fit:cover;
 border-radius:12px;
-box-shadow:0 2px 10px rgba(0,0,0,0.1);
 }
 
-.card span{
-display:block;
-font-size:22px;
-font-weight:bold;
-color:#0d5c3f;
-}
-
-.countdown{
-font-size:40px;
-margin:10px 0;
-color:#0d5c3f;
-font-weight:bold;
-}
-
-select, button{
-padding:8px 12px;
-margin:5px;
-border-radius:6px;
-border:1px solid #ccc;
+/* BUTTON */
+button{
+padding:10px 15px;
+border:none;
+border-radius:8px;
+background:#0f5132;
+color:white;
 cursor:pointer;
 }
 
-.dua-section{
-background:#eaf4f1;
-padding:20px;
-margin-top:20px;
+/* COMPASS */
+#compass{
+width:200px;
+height:200px;
+border:5px solid #0f5132;
+border-radius:50%;
+margin:auto;
+position:relative;
 }
 
-.dua-box{
-background:white;
-padding:15px;
-margin:10px auto;
-max-width:500px;
-border-radius:8px;
-box-shadow:0 2px 8px rgba(0,0,0,0.1);
+#needle{
+width:4px;
+height:90px;
+background:red;
+position:absolute;
+top:10px;
+left:50%;
+transform-origin:bottom;
 }
 
-.footer{
-padding:15px;
+/* FOOTER */
+footer{
 text-align:center;
-font-size:14px;
-color:#666;
+padding:15px;
+background:#0f5132;
+color:white;
 }
-</style>
 
+textarea{
+width:100%;
+padding:10px;
+border-radius:8px;
+border:1px solid #ccc;
+}
+
+</style>
 </head>
+
 <body>
 
 <div class="hero">
-<div class="hero-content">
-<h1 id="titleText">Ramadan Prayer Time</h1>
-<p id="cityText">Detecting your city...</p>
-</div>
+<h1>Ramadan Prayer & Qibla Guide</h1>
+<p id="city">Detecting Location...</p>
+<p id="hijri"></p>
+<p id="countdown"></p>
 </div>
 
 <div class="section">
 
-<select onchange="changeLang(this.value)">
-<option value="en">English</option>
-<option value="hi">Hindi</option>
-<option value="ur">Urdu</option>
-</select>
-
-<div id="hijriDate"></div>
-<div id="nextLabel"></div>
-<div class="countdown" id="countdown"></div>
-
 <div class="card">
-<span id="sehriLabel">Sehri</span>
-<span id="sehri"></span>
+<h2>🕰 Prayer Times</h2>
+<div id="timings">Loading...</div>
 </div>
 
 <div class="card">
-<span id="iftarLabel">Iftar</span>
-<span id="iftar"></span>
+<h2>🌙 Sehri Dua</h2>
+<p><b>Arabic:</b><br>
+وَبِصَوْمِ غَدٍ نَّوَيْتُ مِنْ شَهْرِ رَمَضَانَ
+</p>
+<p><b>Transliteration:</b><br>
+Wa bisawmi ghadinn nawaiytu min shahri Ramadan
+</p>
 </div>
 
-<br>
-<button onclick="shareTime()" id="shareBtn">Share</button>
+<div class="card">
+<h2>🌅 Iftar Dua</h2>
+<p><b>Arabic:</b><br>
+اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَيْكَ تَوَكَّلْتُ وَعَلَىٰ رِزْقِكَ أَفْطَرْتُ
+</p>
+<p><b>Transliteration:</b><br>
+Allahumma inni laka sumtu wa bika aamantu wa 'alayka tawakkaltu wa 'ala rizqika aftartu
+</p>
+</div>
+
+<div class="card">
+<h2>🧭 Qibla Compass</h2>
+<div id="compass">
+<div id="needle"></div>
+</div>
+<p style="text-align:center;">Move phone for direction</p>
+</div>
+
+<div class="card">
+<h2>🕌 Famous Mosques</h2>
+<div class="grid">
+
+<div class="mosque">
+<img src="https://cdn.pixabay.com/photo/2017/08/06/00/03/mecca-2580933_1280.jpg">
+<p><b>Masjid al-Haram</b><br>Saudi Arabia</p>
+</div>
+
+<div class="mosque">
+<img src="https://cdn.pixabay.com/photo/2016/11/29/04/17/masjid-1869560_1280.jpg">
+<p><b>Al-Masjid an-Nabawi</b><br>Saudi Arabia</p>
+</div>
+
+<div class="mosque">
+<img src="https://cdn.pixabay.com/photo/2017/03/27/14/56/mosque-2179505_1280.jpg">
+<p><b>Taj-ul-Masajid</b><br>India</p>
+</div>
+
+</div>
+</div>
+
+<div class="card">
+<h2>👍 Like</h2>
+<button onclick="like()">Like</button>
+<p id="likeCount"></p>
+</div>
+
+<div class="card">
+<h2>💬 Feedback</h2>
+<textarea id="review" placeholder="Write your feedback..."></textarea>
+<br><br>
+<button onclick="saveReview()">Submit</button>
+<p id="savedReview"></p>
+</div>
 
 </div>
 
-<div class="dua-section">
-<h2 id="duaTitle">Islamic Duas</h2>
-
-<div class="dua-box">
-<strong>Sehri Dua</strong>
-<p>Wa bisawmi ghadinn nawaiytu min shahri ramadan</p>
-</div>
-
-<div class="dua-box">
-<strong>Iftar Dua</strong>
-<p>Allahumma inni laka sumtu wa bika aamantu...</p>
-</div>
-
-<div class="dua-box">
-<strong>Ayat-ul-Kursi</strong>
-<p>Allahu la ilaha illa huwa al hayyul qayyum...</p>
-</div>
-
-<div class="dua-box">
-<strong>Surah Ikhlas</strong>
-<p>Qul huwallahu ahad...</p>
-</div>
-
-</div>
-
-<div class="footer">
-Designed & Managed by ❤️ Delhi Iftar
-</div>
+<footer>
+© 2026 Ramadan Prayer Guide
+</footer>
 
 <script>
 
-let currentLang="en";
-let currentCity="Delhi";
-let currentCountry="India";
+// LIKE SYSTEM
+let likes = localStorage.getItem("likes") || 0;
+document.getElementById("likeCount").innerText="Total Likes: "+likes;
 
-const translations={
-en:{
-title:"Ramadan Prayer Time",
-sehri:"Sehri",
-iftar:"Iftar",
-share:"Share",
-next:"Next Prayer"
-},
-hi:{
-title:"रमजान नमाज़ का समय",
-sehri:"सेहरी",
-iftar:"इफ्तार",
-share:"शेयर करें",
-next:"अगली नमाज़"
-},
-ur:{
-title:"رمضان نماز کا وقت",
-sehri:"سحری",
-iftar:"افطار",
-share:"شیئر کریں",
-next:"اگلی نماز"
-}
-};
-
-function changeLang(lang){
-currentLang=lang;
-document.getElementById("titleText").innerText=translations[lang].title;
-document.getElementById("sehriLabel").innerText=translations[lang].sehri;
-document.getElementById("iftarLabel").innerText=translations[lang].iftar;
-document.getElementById("shareBtn").innerText=translations[lang].share;
+function like(){
+likes++;
+localStorage.setItem("likes",likes);
+document.getElementById("likeCount").innerText="Total Likes: "+likes;
 }
 
-function fetchPrayer(city,country){
-fetch(`https://api.aladhan.com/v1/timingsByCity?city=${city}&country=${country}&method=1`)
+// REVIEW
+function saveReview(){
+let text=document.getElementById("review").value;
+localStorage.setItem("review",text);
+document.getElementById("savedReview").innerText="Saved: "+text;
+}
+
+// LOCATION + PRAYER
+if(navigator.geolocation){
+navigator.geolocation.getCurrentPosition(function(pos){
+let lat=pos.coords.latitude;
+let lon=pos.coords.longitude;
+
+fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`)
 .then(res=>res.json())
 .then(data=>{
 let t=data.data.timings;
-let hijri=data.data.date.hijri;
+document.getElementById("timings").innerHTML=
+"Fajr: "+t.Fajr+"<br>"+
+"Dhuhr: "+t.Dhuhr+"<br>"+
+"Asr: "+t.Asr+"<br>"+
+"Maghrib: "+t.Maghrib+"<br>"+
+"Isha: "+t.Isha;
 
-document.getElementById("sehri").innerText=t.Fajr;
-document.getElementById("iftar").innerText=t.Maghrib;
-document.getElementById("hijriDate").innerText="Hijri: "+hijri.day+" "+hijri.month.en+" "+hijri.year;
+document.getElementById("hijri").innerText=
+"Hijri Date: "+data.data.date.hijri.date;
 
-startCountdown(t);
+let maghrib=t.Maghrib;
+startCountdown(maghrib);
+});
 });
 }
 
-function startCountdown(t){
-setInterval(()=>{
+function startCountdown(time){
+let interval=setInterval(function(){
 let now=new Date();
-let [ih,im]=t.Maghrib.split(":");
+let [h,m]=time.split(":");
 let target=new Date();
-target.setHours(ih,im,0);
-
-if(now>target){
-let [sh,sm]=t.Fajr.split(":");
-target=new Date();
-target.setDate(target.getDate()+1);
-target.setHours(sh,sm,0);
-}
+target.setHours(h);
+target.setMinutes(m);
+target.setSeconds(0);
 
 let diff=target-now;
-let h=Math.floor(diff/1000/60/60);
-let m=Math.floor((diff/1000/60)%60);
-let s=Math.floor((diff/1000)%60);
+if(diff<0){diff+=86400000;}
 
-document.getElementById("countdown").innerText=h+"h "+m+"m "+s+"s";
+let hours=Math.floor(diff/3600000);
+let mins=Math.floor((diff%3600000)/60000);
+let secs=Math.floor((diff%60000)/1000);
 
+document.getElementById("countdown").innerText=
+"Iftar Countdown: "+hours+"h "+mins+"m "+secs+"s";
 },1000);
 }
 
-function detectLocation(){
-if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(pos=>{
-fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${pos.coords.latitude}&longitude=${pos.coords.longitude}`)
-.then(res=>res.json())
-.then(data=>{
-currentCity=data.city || "Delhi";
-currentCountry=data.countryName || "India";
-document.getElementById("cityText").innerText=currentCity+", "+currentCountry;
-fetchPrayer(currentCity,currentCountry);
+// QIBLA COMPASS (Basic Android)
+if (window.DeviceOrientationEvent) {
+window.addEventListener("deviceorientation", function(event) {
+let rotate = event.alpha;
+document.getElementById("needle").style.transform = "rotate(" + rotate + "deg)";
 });
-},()=>{
-fetchPrayer(currentCity,currentCountry);
-});
-}else{
-fetchPrayer(currentCity,currentCountry);
 }
-}
-
-function shareTime(){
-let text="Check Ramadan prayer time in your city: "+window.location.href;
-navigator.share ? navigator.share({text}) : alert(text);
-}
-
-detectLocation();
 
 </script>
-<!-- ================= ISLAMIC FEATURES START ================= -->
 
-<!-- QIBLA SECTION -->
-<section style="padding:50px;background:#f9f9f9;text-align:center;">
-
-<h2 style="color:#0d5c3f;font-size:28px;">🧭 Qibla Direction</h2>
-<p>Allow location access to find Qibla direction.</p>
-
-<div style="margin:20px auto;width:200px;height:200px;border:6px solid #0d5c3f;border-radius:50%;position:relative;">
-<div id="arrow" style="width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-bottom:80px solid red;position:absolute;top:40px;left:80px;transform:rotate(0deg);transform-origin:50% 80%;"></div>
-</div>
-
-<button onclick="getQibla()" style="padding:10px 20px;border:none;background:#0d5c3f;color:white;border-radius:8px;cursor:pointer;">
-Find Qibla
-</button>
-
-</section>
-
-
-<!-- TASBEEH SECTION -->
-<section style="padding:50px;background:linear-gradient(to right,#e8f5e9,#f7f8f4);text-align:center;">
-
-<h2 style="color:#0d5c3f;font-size:28px;">📿 Digital Tasbeeh</h2>
-
-<div id="count" style="font-size:50px;margin:20px 0;color:#333;">0</div>
-
-<button onclick="increaseCount()" style="padding:15px 30px;font-size:18px;border:none;background:#0d5c3f;color:white;border-radius:10px;cursor:pointer;">
-Tap
-</button>
-
-<button onclick="resetCount()" style="padding:10px 20px;margin-left:10px;border:none;background:#b71c1c;color:white;border-radius:8px;cursor:pointer;">
-Reset
-</button>
-
-</section>
-
-
-<!-- MOSQUE GALLERY SECTION -->
-<section style="padding:50px;background:linear-gradient(to right,#f7f8f4,#e8f5e9);">
-
-<h2 style="text-align:center;color:#0d5c3f;font-size:30px;margin-bottom:30px;">
-🕌 World Famous Mosques
-</h2>
-
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;">
-
-<!-- 01 -->
-<div style="background:white;border-radius:15px;overflow:hidden;box-shadow:0 6px 15px rgba(0,0,0,0.12);transition:0.3s;"
-onmouseover="this.style.transform='scale(1.03)'"
-onmouseout="this.style.transform='scale(1)'">
-
-<img src="https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=1200" style="width:100%;height:230px;object-fit:cover;">
-
-<div style="padding:18px;">
-<h3>01. Masjid al-Haram</h3>
-<p><b>Country:</b> Saudi Arabia</p>
-<p><b>City:</b> Makkah</p>
-<p><b>Established:</b> 7th Century</p>
-<p>The holiest mosque in Islam, surrounding the Holy Kaaba.</p>
-</div>
-</div>
-
-<!-- 02 -->
-<div style="background:white;border-radius:15px;overflow:hidden;box-shadow:0 6px 15px rgba(0,0,0,0.12);transition:0.3s;"
-onmouseover="this.style.transform='scale(1.03)'"
-onmouseout="this.style.transform='scale(1)'">
-
-<img src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=1200" style="width:100%;height:230px;object-fit:cover;">
-
-<div style="padding:18px;">
-<h3>02. Al-Masjid an-Nabawi</h3>
-<p><b>Country:</b> Saudi Arabia</p>
-<p><b>City:</b> Madinah</p>
-<p><b>Established:</b> 622 CE</p>
-<p>Built by Prophet Muhammad ﷺ. It is the second holiest mosque in Islam.</p>
-</div>
-</div>
-
-<!-- 03 -->
-<div style="background:white;border-radius:15px;overflow:hidden;box-shadow:0 6px 15px rgba(0,0,0,0.12);transition:0.3s;"
-onmouseover="this.style.transform='scale(1.03)'"
-onmouseout="this.style.transform='scale(1)'">
-
-<img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=1200" style="width:100%;height:230px;object-fit:cover;">
-
-<div style="padding:18px;">
-<h3>03. Sheikh Zayed Grand Mosque</h3>
-<p><b>Country:</b> UAE</p>
-<p><b>City:</b> Abu Dhabi</p>
-<p><b>Established:</b> 2007</p>
-<p>One of the largest and most beautiful mosques in the world.</p>
-</div>
-</div>
-
-</div>
-</section>
-
-
-<script>
-let count = 0;
-
-function increaseCount(){
-count++;
-document.getElementById("count").innerText = count;
-}
-
-function resetCount(){
-count = 0;
-document.getElementById("count").innerText = count;
-}
-
-function getQibla(){
-if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(function(position){
-
-let userLat = position.coords.latitude;
-let userLng = position.coords.longitude;
-
-let kaabaLat = 21.4225;
-let kaabaLng = 39.8262;
-
-let dLon = (kaabaLng - userLng) * Math.PI / 180;
-let lat1 = userLat * Math.PI / 180;
-let lat2 = kaabaLat * Math.PI / 180;
-
-let y = Math.sin(dLon) * Math.cos(lat2);
-let x = Math.cos(lat1) * Math.sin(lat2) -
-Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
-
-let brng = Math.atan2(y, x);
-brng = brng * 180 / Math.PI;
-brng = (brng + 360) % 360;
-
-document.getElementById("arrow").style.transform = "rotate(" + brng + "deg)";
-
-});
-}else{
-alert("Geolocation not supported");
-}
-}
-</script>
-
-<!-- ================= ISLAMIC FEATURES END ================= -->
 </body>
 </html>
