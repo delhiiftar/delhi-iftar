@@ -284,6 +284,148 @@ navigator.share ? navigator.share({text}) : alert(text);
 detectLocation();
 
 </script>
+<!-- ================= ISLAMIC FEATURES START ================= -->
 
+<!-- QIBLA SECTION -->
+<section style="padding:50px;background:#f9f9f9;text-align:center;">
+
+<h2 style="color:#0d5c3f;font-size:28px;">🧭 Qibla Direction</h2>
+<p>Allow location access to find Qibla direction.</p>
+
+<div style="margin:20px auto;width:200px;height:200px;border:6px solid #0d5c3f;border-radius:50%;position:relative;">
+<div id="arrow" style="width:0;height:0;border-left:20px solid transparent;border-right:20px solid transparent;border-bottom:80px solid red;position:absolute;top:40px;left:80px;transform:rotate(0deg);transform-origin:50% 80%;"></div>
+</div>
+
+<button onclick="getQibla()" style="padding:10px 20px;border:none;background:#0d5c3f;color:white;border-radius:8px;cursor:pointer;">
+Find Qibla
+</button>
+
+</section>
+
+
+<!-- TASBEEH SECTION -->
+<section style="padding:50px;background:linear-gradient(to right,#e8f5e9,#f7f8f4);text-align:center;">
+
+<h2 style="color:#0d5c3f;font-size:28px;">📿 Digital Tasbeeh</h2>
+
+<div id="count" style="font-size:50px;margin:20px 0;color:#333;">0</div>
+
+<button onclick="increaseCount()" style="padding:15px 30px;font-size:18px;border:none;background:#0d5c3f;color:white;border-radius:10px;cursor:pointer;">
+Tap
+</button>
+
+<button onclick="resetCount()" style="padding:10px 20px;margin-left:10px;border:none;background:#b71c1c;color:white;border-radius:8px;cursor:pointer;">
+Reset
+</button>
+
+</section>
+
+
+<!-- MOSQUE GALLERY SECTION -->
+<section style="padding:50px;background:linear-gradient(to right,#f7f8f4,#e8f5e9);">
+
+<h2 style="text-align:center;color:#0d5c3f;font-size:30px;margin-bottom:30px;">
+🕌 World Famous Mosques
+</h2>
+
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;">
+
+<!-- 01 -->
+<div style="background:white;border-radius:15px;overflow:hidden;box-shadow:0 6px 15px rgba(0,0,0,0.12);transition:0.3s;"
+onmouseover="this.style.transform='scale(1.03)'"
+onmouseout="this.style.transform='scale(1)'">
+
+<img src="https://images.unsplash.com/photo-1584551246679-0daf3d275d0f?w=1200" style="width:100%;height:230px;object-fit:cover;">
+
+<div style="padding:18px;">
+<h3>01. Masjid al-Haram</h3>
+<p><b>Country:</b> Saudi Arabia</p>
+<p><b>City:</b> Makkah</p>
+<p><b>Established:</b> 7th Century</p>
+<p>The holiest mosque in Islam, surrounding the Holy Kaaba.</p>
+</div>
+</div>
+
+<!-- 02 -->
+<div style="background:white;border-radius:15px;overflow:hidden;box-shadow:0 6px 15px rgba(0,0,0,0.12);transition:0.3s;"
+onmouseover="this.style.transform='scale(1.03)'"
+onmouseout="this.style.transform='scale(1)'">
+
+<img src="https://images.unsplash.com/photo-1564760055775-d63b17a55c44?w=1200" style="width:100%;height:230px;object-fit:cover;">
+
+<div style="padding:18px;">
+<h3>02. Al-Masjid an-Nabawi</h3>
+<p><b>Country:</b> Saudi Arabia</p>
+<p><b>City:</b> Madinah</p>
+<p><b>Established:</b> 622 CE</p>
+<p>Built by Prophet Muhammad ﷺ. It is the second holiest mosque in Islam.</p>
+</div>
+</div>
+
+<!-- 03 -->
+<div style="background:white;border-radius:15px;overflow:hidden;box-shadow:0 6px 15px rgba(0,0,0,0.12);transition:0.3s;"
+onmouseover="this.style.transform='scale(1.03)'"
+onmouseout="this.style.transform='scale(1)'">
+
+<img src="https://images.unsplash.com/photo-1591604466107-ec97de577aff?w=1200" style="width:100%;height:230px;object-fit:cover;">
+
+<div style="padding:18px;">
+<h3>03. Sheikh Zayed Grand Mosque</h3>
+<p><b>Country:</b> UAE</p>
+<p><b>City:</b> Abu Dhabi</p>
+<p><b>Established:</b> 2007</p>
+<p>One of the largest and most beautiful mosques in the world.</p>
+</div>
+</div>
+
+</div>
+</section>
+
+
+<script>
+let count = 0;
+
+function increaseCount(){
+count++;
+document.getElementById("count").innerText = count;
+}
+
+function resetCount(){
+count = 0;
+document.getElementById("count").innerText = count;
+}
+
+function getQibla(){
+if(navigator.geolocation){
+navigator.geolocation.getCurrentPosition(function(position){
+
+let userLat = position.coords.latitude;
+let userLng = position.coords.longitude;
+
+let kaabaLat = 21.4225;
+let kaabaLng = 39.8262;
+
+let dLon = (kaabaLng - userLng) * Math.PI / 180;
+let lat1 = userLat * Math.PI / 180;
+let lat2 = kaabaLat * Math.PI / 180;
+
+let y = Math.sin(dLon) * Math.cos(lat2);
+let x = Math.cos(lat1) * Math.sin(lat2) -
+Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+
+let brng = Math.atan2(y, x);
+brng = brng * 180 / Math.PI;
+brng = (brng + 360) % 360;
+
+document.getElementById("arrow").style.transform = "rotate(" + brng + "deg)";
+
+});
+}else{
+alert("Geolocation not supported");
+}
+}
+</script>
+
+<!-- ================= ISLAMIC FEATURES END ================= -->
 </body>
 </html>
