@@ -1,92 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ramadan Mubarak Time Table</title>
 
-<!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-XSFHJH6TFL"></script>
-<script>
-window.dataLayer = window.dataLayer || [];
-function gtag(){dataLayer.push(arguments);}
-gtag('js', new Date());
-gtag('config', 'G-XSFHJH6TFL');
-</script>
-
 <style>
 body{
 margin:0;
 font-family:Segoe UI, sans-serif;
-background:#f3efe4;
+background:#f5f1e6;
 color:#103d2b;
-overflow-x:hidden;
 }
 
 /* HERO */
 .hero{
 background:linear-gradient(#0f5132,#083c26);
 color:white;
-padding:35px 15px 20px 15px;
+padding:25px 15px;
 text-align:center;
 position:relative;
 }
 
-.hero h1{
-margin:0;
-font-size:24px;
-}
+.hero h1{margin:5px 0;font-size:22px;}
+.location,.liveClock,.date{font-size:14px;margin-top:4px;}
+.liveClock{font-weight:bold;}
 
-/* Moon */
-.moon{
-position:absolute;
-top:15px;
-left:20px;
-font-size:28px;
-}
-
-/* Palm */
-.palm{
-position:absolute;
-bottom:0;
-font-size:40px;
-opacity:0.3;
-}
-
-.palm.left{left:10px;}
-.palm.right{right:10px;}
-
-.city{
-margin-top:5px;
-font-size:15px;
-}
+.moon{position:absolute;top:10px;left:15px;font-size:25px;}
+.palmL{position:absolute;bottom:5px;left:10px;font-size:35px;opacity:0.3;}
+.palmR{position:absolute;bottom:5px;right:10px;font-size:35px;opacity:0.3;}
 
 .box{
 margin:10px;
-padding:18px;
+padding:15px;
 border-radius:18px;
-position:relative;
 text-align:center;
 }
 
 .green{background:#0f5132;color:white;}
 .cream{background:#fff3cd;color:#103d2b;}
 
-.live{
-position:absolute;
-top:10px;
-right:15px;
+.title{font-size:15px;}
+.time{font-size:26px;font-weight:bold;margin:5px 0;}
+
+.highlight{
 background:#00ff7f;
 color:black;
-padding:3px 10px;
-border-radius:15px;
+padding:3px 8px;
+border-radius:12px;
 font-size:12px;
-font-weight:bold;
+display:inline-block;
+margin-bottom:5px;
 }
-
-.title{font-size:16px;letter-spacing:1px;}
-.time{font-size:30px;font-weight:bold;margin:5px 0;}
-.count{font-size:15px;color:#00ff7f;}
 
 .prayer-list{
 margin:10px;
@@ -103,34 +68,54 @@ padding:6px 0;
 font-weight:bold;
 }
 
-.sun{color:#f4c430;}
-.moon-icon{color:#6c8cff;}
+.active{color:#d63384;}
 
-.dua{
+.scroll-indicator{
+text-align:center;
+font-size:14px;
+animation:blink 1.5s infinite;
+margin-top:5px;
+}
+
+@keyframes blink{
+0%{opacity:1;}
+50%{opacity:0.3;}
+100%{opacity:1;}
+}
+
+.dua,.tasbih{
 background:white;
 margin:12px;
 padding:15px;
 border-radius:15px;
 box-shadow:0 5px 10px rgba(0,0,0,0.1);
+text-align:center;
 }
 
-.dua-ar{
-font-size:18px;
-direction:rtl;
-margin-bottom:6px;
-}
+.dua-ar{font-size:18px;direction:rtl;margin-bottom:6px;}
 
-.dua-en{
-font-size:14px;
+.tasbih-number{
+font-size:35px;
+font-weight:bold;
+margin:10px 0;
 color:#0f5132;
+}
+
+.tasbih button{
+margin:5px;
+padding:8px 15px;
+border:none;
+border-radius:8px;
+background:#0f5132;
+color:white;
+font-weight:bold;
 }
 
 footer{
 background:#0f5132;
 color:#ffd700;
 text-align:center;
-padding:12px;
-font-size:14px;
+padding:10px;
 font-weight:bold;
 }
 </style>
@@ -140,23 +125,33 @@ font-weight:bold;
 
 <div class="hero">
 <div class="moon">🌙</div>
-<div class="palm left">🌴</div>
-<div class="palm right">🌴</div>
+<div class="palmL">🌴</div>
+<div class="palmR">🌴</div>
 <h1>Ramadan Mubarak Time Table</h1>
-<div class="city" id="city">Detecting location...</div>
+<div class="location" id="location">Detecting location...</div>
+<div class="liveClock" id="liveClock"></div>
+<div class="date" id="hijriDate"></div>
+<div class="date" id="gregorianDate"></div>
+<div class="date" id="ramadanDay"></div>
 </div>
 
-<div id="mainBox" class="box green">
-<div class="live">LIVE</div>
-<div class="title" id="eventTitle">Loading...</div>
-<div class="time" id="eventTime">--:--</div>
-<div class="count" id="countdown"></div>
+<div class="box green">
+<div class="highlight">NEXT PRAYER</div>
+<div class="title" id="nextPrayer"></div>
+<div class="time" id="nextTime"></div>
 </div>
 
-<div id="secondBox" class="box cream">
-<div class="title" id="secondTitle"></div>
-<div class="time" id="secondTime"></div>
+<div class="box cream">
+<div class="title">SEHRI (Fajr)</div>
+<div class="time" id="fajrTime"></div>
 </div>
+
+<div class="box cream">
+<div class="title">IFTAR (Maghrib)</div>
+<div class="time" id="maghribTime"></div>
+</div>
+
+<div class="scroll-indicator">⬇ Scroll for More ⬇</div>
 
 <div class="prayer-list" id="prayerList"></div>
 
@@ -165,9 +160,6 @@ font-weight:bold;
 <div class="dua-ar">
 وَبِصَوْمِ غَدٍ نَّوَيْتُ مِنْ شَهْرِ رَمَضَانَ
 </div>
-<div class="dua-en">
-Wa bisawmi ghadinn nawaiytu min shahri Ramadan
-</div>
 </div>
 
 <div class="dua">
@@ -175,9 +167,13 @@ Wa bisawmi ghadinn nawaiytu min shahri Ramadan
 <div class="dua-ar">
 اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَيْكَ تَوَكَّلْتُ وَعَلَىٰ رِزْقِكَ أَفْطَرْتُ
 </div>
-<div class="dua-en">
-Allahumma inni laka sumtu wa bika aamantu wa alayka tawakkaltu wa ala rizqika aftartu
 </div>
+
+<div class="tasbih">
+<h3>📿 Digital Tasbih</h3>
+<div id="tasbihCount" class="tasbih-number">0</div>
+<button onclick="increaseTasbih()">Count</button>
+<button onclick="resetTasbih()">Reset</button>
 </div>
 
 <footer>
@@ -190,32 +186,33 @@ function format12(time){
 let [h,m]=time.split(":");
 h=parseInt(h);
 let ampm=h>=12?"PM":"AM";
-h=h%12;
-if(h==0)h=12;
+h=h%12;if(h==0)h=12;
 return h+":"+m+" "+ampm;
 }
 
-function countdown(targetTime){
-setInterval(()=>{
+function updateClock(){
 let now=new Date();
-let [h,m]=targetTime.split(":");
-let target=new Date();
-target.setHours(h,m,0);
+let h=now.getHours();
+let m=now.getMinutes();
+let s=now.getSeconds();
+let ampm=h>=12?"PM":"AM";
+h=h%12;if(h==0)h=12;
+document.getElementById("liveClock").innerText=
+"🕒 "+h+":"+String(m).padStart(2,'0')+":"+String(s).padStart(2,'0')+" "+ampm;
+}
+setInterval(updateClock,1000);
+updateClock();
 
-let diff=target-now;
-if(diff<0) diff+=86400000;
-
-let hr=Math.floor(diff/3600000);
-let min=Math.floor((diff%3600000)/60000);
-let sec=Math.floor((diff%60000)/1000);
-
-document.getElementById("countdown").innerText=
-hr+"h "+min+"m "+sec+"s remaining";
-
-},1000);
+let tasbihCount=0;
+function increaseTasbih(){
+tasbihCount++;
+document.getElementById("tasbihCount").innerText=tasbihCount;
+}
+function resetTasbih(){
+tasbihCount=0;
+document.getElementById("tasbihCount").innerText=0;
 }
 
-if(navigator.geolocation){
 navigator.geolocation.getCurrentPosition(function(pos){
 
 let lat=pos.coords.latitude;
@@ -224,66 +221,63 @@ let lon=pos.coords.longitude;
 fetch(`https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}`)
 .then(res=>res.json())
 .then(loc=>{
-document.getElementById("city").innerText=
-loc.city+", "+loc.countryName;
+document.getElementById("location").innerText=
+"📍 "+(loc.locality || loc.city)+", "+loc.countryName;
 });
 
-fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`)
+fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=1&school=1`)
 .then(res=>res.json())
 .then(data=>{
 
 let t=data.data.timings;
 
-let fajr=t.Fajr;
-let sunrise=t.Sunrise;
-let dhuhr=t.Dhuhr;
-let asr=t.Asr;
-let maghrib=t.Maghrib;
-let isha=t.Isha;
+let prayers=[
+{name:"Fajr",time:t.Fajr},
+{name:"Sunrise",time:t.Sunrise},
+{name:"Dhuhr",time:t.Dhuhr},
+{name:"Asr",time:t.Asr},
+{name:"Maghrib",time:t.Maghrib},
+{name:"Isha",time:t.Isha}
+];
+
+document.getElementById("fajrTime").innerText=format12(t.Fajr);
+document.getElementById("maghribTime").innerText=format12(t.Maghrib);
+
+document.getElementById("hijriDate").innerText=
+"📅 "+data.data.date.hijri.day+" "+
+data.data.date.hijri.month.en+" "+
+data.data.date.hijri.year+" AH";
+
+document.getElementById("gregorianDate").innerText=
+"📆 "+data.data.date.gregorian.date;
+
+if(data.data.date.hijri.month.en==="Ramadan"){
+document.getElementById("ramadanDay").innerText=
+"🌙 Ramadan Day "+data.data.date.hijri.day;
+}
 
 let now=new Date();
-let fajrDate=new Date();
-let magDate=new Date();
+let next=prayers.find(p=>{
+let d=new Date();
+let [h,m]=p.time.split(":");
+d.setHours(h,m,0);
+return now<d;
+})||prayers[0];
 
-let f=fajr.split(":");
-let m=maghrib.split(":");
-
-fajrDate.setHours(f[0],f[1],0);
-magDate.setHours(m[0],m[1],0);
-
-let mainTitle, mainTime, secondTitle, secondTime;
-
-if(now < fajrDate){
-mainTitle="SEHRI TIME";
-mainTime=fajr;
-secondTitle="IFTAR TIME";
-secondTime=maghrib;
-}else{
-mainTitle="IFTAR TIME";
-mainTime=maghrib;
-secondTitle="SEHRI TIME";
-secondTime=fajr;
-}
-
-document.getElementById("eventTitle").innerText=mainTitle;
-document.getElementById("eventTime").innerText=format12(mainTime);
-
-document.getElementById("secondTitle").innerText=secondTitle;
-document.getElementById("secondTime").innerText=format12(secondTime);
-
-countdown(mainTime);
+document.getElementById("nextPrayer").innerText=next.name;
+document.getElementById("nextTime").innerText=format12(next.time);
 
 document.getElementById("prayerList").innerHTML=
-`<div class="prayer-item"><span class="sun">🌅 Fajr</span><span>${format12(fajr)}</span></div>
-<div class="prayer-item"><span class="sun">🌄 Sunrise</span><span>${format12(sunrise)}</span></div>
-<div class="prayer-item"><span class="sun">☀ Dhuhr</span><span>${format12(dhuhr)}</span></div>
-<div class="prayer-item"><span class="sun">☀ Asr</span><span>${format12(asr)}</span></div>
-<div class="prayer-item"><span class="moon-icon">🌙 Maghrib</span><span>${format12(maghrib)}</span></div>
-<div class="prayer-item"><span class="moon-icon">🌙 Isha</span><span>${format12(isha)}</span></div>`;
+prayers.map(p=>{
+return `<div class="prayer-item ${p.name==next.name?'active':''}">
+<span>${p.name}</span>
+<span>${format12(p.time)}</span>
+</div>`
+}).join("");
 
 });
+
 });
-}
 
 </script>
 
