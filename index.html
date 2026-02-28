@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramadan Premium Prayer Guide</title>
+<title>Ramadan Mubarak Time Table</title>
 
 <!-- Google Analytics -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-XSFHJH6TFL"></script>
@@ -20,121 +20,117 @@ margin:0;
 font-family:Segoe UI, sans-serif;
 background:#f3efe4;
 color:#103d2b;
+overflow-x:hidden;
 }
 
 /* HERO */
 .hero{
-background:linear-gradient(rgba(0,80,45,0.95),rgba(0,80,45,0.95)),
-url('https://upload.wikimedia.org/wikipedia/commons/3/3f/Date_palm_trees.jpg');
-background-size:cover;
-background-position:center;
-padding:70px 20px;
-text-align:center;
+background:linear-gradient(#0f5132,#083c26);
 color:white;
+padding:35px 15px 20px 15px;
+text-align:center;
 position:relative;
 }
 
 .hero h1{
-font-size:32px;
 margin:0;
+font-size:24px;
 }
+
+/* Moon */
+.moon{
+position:absolute;
+top:15px;
+left:20px;
+font-size:28px;
+}
+
+/* Palm */
+.palm{
+position:absolute;
+bottom:0;
+font-size:40px;
+opacity:0.3;
+}
+
+.palm.left{left:10px;}
+.palm.right{right:10px;}
 
 .city{
-margin-top:8px;
-font-size:18px;
-}
-
-.big-section{
-padding:20px;
+margin-top:5px;
+font-size:15px;
 }
 
 .box{
+margin:10px;
+padding:18px;
+border-radius:18px;
 position:relative;
-border-radius:20px;
-padding:25px;
-margin-bottom:25px;
 text-align:center;
-box-shadow:0 0 25px rgba(0,0,0,0.2);
 }
 
-.green{
-background:#0f5132;
-color:white;
-}
-
-.cream{
-background:#fff8e7;
-color:#0f5132;
-}
+.green{background:#0f5132;color:white;}
+.cream{background:#fff3cd;color:#103d2b;}
 
 .live{
 position:absolute;
-top:15px;
-right:20px;
+top:10px;
+right:15px;
 background:#00ff7f;
 color:black;
-padding:5px 12px;
-border-radius:20px;
-font-weight:bold;
-font-size:14px;
-}
-
-.title{
-font-size:22px;
-letter-spacing:2px;
-}
-
-.time{
-font-size:42px;
-font-weight:bold;
-margin:10px 0;
-}
-
-.count{
-font-size:24px;
-color:#00ff7f;
+padding:3px 10px;
+border-radius:15px;
+font-size:12px;
 font-weight:bold;
 }
 
-.prayer-row{
+.title{font-size:16px;letter-spacing:1px;}
+.time{font-size:30px;font-weight:bold;margin:5px 0;}
+.count{font-size:15px;color:#00ff7f;}
+
+.prayer-list{
+margin:10px;
+background:white;
+border-radius:15px;
+padding:12px;
+box-shadow:0 5px 10px rgba(0,0,0,0.1);
+}
+
+.prayer-item{
 display:flex;
-justify-content:space-around;
-background:#e6f4ea;
-padding:15px;
+justify-content:space-between;
+padding:6px 0;
 font-weight:bold;
-flex-wrap:wrap;
 }
+
+.sun{color:#f4c430;}
+.moon-icon{color:#6c8cff;}
 
 .dua{
 background:white;
-margin:20px;
-padding:20px;
+margin:12px;
+padding:15px;
 border-radius:15px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
+box-shadow:0 5px 10px rgba(0,0,0,0.1);
 }
 
 .dua-ar{
-font-size:22px;
+font-size:18px;
 direction:rtl;
-margin-bottom:10px;
+margin-bottom:6px;
 }
 
 .dua-en{
-font-size:18px;
+font-size:14px;
 color:#0f5132;
-}
-
-.gallery img{
-width:100%;
-border-radius:12px;
-margin-top:10px;
 }
 
 footer{
 background:#0f5132;
 color:#ffd700;
 text-align:center;
-padding:15px;
+padding:12px;
+font-size:14px;
 font-weight:bold;
 }
 </style>
@@ -143,28 +139,26 @@ font-weight:bold;
 <body>
 
 <div class="hero">
-<h1>Ramadan Premium Prayer Guide</h1>
+<div class="moon">🌙</div>
+<div class="palm left">🌴</div>
+<div class="palm right">🌴</div>
+<h1>Ramadan Mubarak Time Table</h1>
 <div class="city" id="city">Detecting location...</div>
 </div>
-
-<div class="big-section">
 
 <div id="mainBox" class="box green">
 <div class="live">LIVE</div>
 <div class="title" id="eventTitle">Loading...</div>
 <div class="time" id="eventTime">--:--</div>
-<div class="count" id="countdown">Loading...</div>
+<div class="count" id="countdown"></div>
 </div>
 
 <div id="secondBox" class="box cream">
 <div class="title" id="secondTitle"></div>
 <div class="time" id="secondTime"></div>
-<div class="count" id="secondCount"></div>
 </div>
 
-</div>
-
-<div class="prayer-row" id="allPrayers"></div>
+<div class="prayer-list" id="prayerList"></div>
 
 <div class="dua">
 <h3>Sehri Dua</h3>
@@ -182,14 +176,8 @@ Wa bisawmi ghadinn nawaiytu min shahri Ramadan
 اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَيْكَ تَوَكَّلْتُ وَعَلَىٰ رِزْقِكَ أَفْطَرْتُ
 </div>
 <div class="dua-en">
-Allahumma inni laka sumtu wa bika aamantu wa 'alayka tawakkaltu wa 'ala rizqika aftartu
+Allahumma inni laka sumtu wa bika aamantu wa alayka tawakkaltu wa ala rizqika aftartu
 </div>
-</div>
-
-<div class="gallery dua">
-<h3>Famous Mosques</h3>
-<img src="https://upload.wikimedia.org/wikipedia/commons/0/02/Al-Masjid_an-Nabawi_Medina.jpg">
-<img src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Taj-ul-Masajid_Bhopal.jpg">
 </div>
 
 <footer>
@@ -207,7 +195,7 @@ if(h==0)h=12;
 return h+":"+m+" "+ampm;
 }
 
-function countdown(targetTime,element){
+function countdown(targetTime){
 setInterval(()=>{
 let now=new Date();
 let [h,m]=targetTime.split(":");
@@ -221,7 +209,8 @@ let hr=Math.floor(diff/3600000);
 let min=Math.floor((diff%3600000)/60000);
 let sec=Math.floor((diff%60000)/1000);
 
-element.innerText=hr+"h "+min+"m "+sec+"s Remaining";
+document.getElementById("countdown").innerText=
+hr+"h "+min+"m "+sec+"s remaining";
 
 },1000);
 }
@@ -246,7 +235,11 @@ fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&metho
 let t=data.data.timings;
 
 let fajr=t.Fajr;
+let sunrise=t.Sunrise;
+let dhuhr=t.Dhuhr;
+let asr=t.Asr;
 let maghrib=t.Maghrib;
+let isha=t.Isha;
 
 let now=new Date();
 let fajrDate=new Date();
@@ -278,13 +271,15 @@ document.getElementById("eventTime").innerText=format12(mainTime);
 document.getElementById("secondTitle").innerText=secondTitle;
 document.getElementById("secondTime").innerText=format12(secondTime);
 
-countdown(mainTime,document.getElementById("countdown"));
-countdown(secondTime,document.getElementById("secondCount"));
+countdown(mainTime);
 
-document.getElementById("allPrayers").innerHTML=
-"Fajr "+format12(t.Fajr)+" | Dhuhr "+format12(t.Dhuhr)+
-" | Asr "+format12(t.Asr)+" | Maghrib "+format12(t.Maghrib)+
-" | Isha "+format12(t.Isha);
+document.getElementById("prayerList").innerHTML=
+`<div class="prayer-item"><span class="sun">🌅 Fajr</span><span>${format12(fajr)}</span></div>
+<div class="prayer-item"><span class="sun">🌄 Sunrise</span><span>${format12(sunrise)}</span></div>
+<div class="prayer-item"><span class="sun">☀ Dhuhr</span><span>${format12(dhuhr)}</span></div>
+<div class="prayer-item"><span class="sun">☀ Asr</span><span>${format12(asr)}</span></div>
+<div class="prayer-item"><span class="moon-icon">🌙 Maghrib</span><span>${format12(maghrib)}</span></div>
+<div class="prayer-item"><span class="moon-icon">🌙 Isha</span><span>${format12(isha)}</span></div>`;
 
 });
 });
