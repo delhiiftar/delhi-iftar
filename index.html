@@ -9,7 +9,7 @@
 body{
 margin:0;
 font-family:Segoe UI, sans-serif;
-background:#f5f1e6;
+background:#f4f1e8;
 color:#103d2b;
 }
 
@@ -26,13 +26,14 @@ position:relative;
 .location,.liveClock,.date{font-size:14px;margin-top:4px;}
 .liveClock{font-weight:bold;}
 
-.moon{position:absolute;top:10px;left:15px;font-size:25px;}
-.palmL{position:absolute;bottom:5px;left:10px;font-size:35px;opacity:0.3;}
-.palmR{position:absolute;bottom:5px;right:10px;font-size:35px;opacity:0.3;}
+.moon{position:absolute;top:10px;left:15px;font-size:24px;}
+.palmL{position:absolute;bottom:5px;left:10px;font-size:32px;opacity:0.3;}
+.palmR{position:absolute;bottom:5px;right:10px;font-size:32px;opacity:0.3;}
 
+/* MAIN TIME BOXES */
 .box{
-margin:10px;
-padding:15px;
+margin:12px;
+padding:18px;
 border-radius:18px;
 text-align:center;
 }
@@ -40,41 +41,35 @@ text-align:center;
 .green{background:#0f5132;color:white;}
 .cream{background:#fff3cd;color:#103d2b;}
 
-.title{font-size:15px;}
-.time{font-size:26px;font-weight:bold;margin:5px 0;}
+.title{font-size:16px;font-weight:bold;}
+.bigtime{font-size:34px;font-weight:bold;margin:6px 0;}
 
-.highlight{
-background:#00ff7f;
-color:black;
-padding:3px 8px;
-border-radius:12px;
-font-size:12px;
-display:inline-block;
-margin-bottom:5px;
-}
-
+/* PRAYER LIST */
 .prayer-list{
-margin:10px;
+margin:12px;
 background:white;
 border-radius:15px;
-padding:12px;
+padding:15px;
 box-shadow:0 5px 10px rgba(0,0,0,0.1);
 }
 
 .prayer-item{
 display:flex;
 justify-content:space-between;
-padding:6px 0;
+padding:8px 0;
 font-weight:bold;
 }
 
-.active{color:#d63384;}
+.active{
+color:#d63384;
+font-size:17px;
+}
 
+/* Scroll Indicator */
 .scroll-indicator{
 text-align:center;
 font-size:14px;
 animation:blink 1.5s infinite;
-margin-top:5px;
 }
 
 @keyframes blink{
@@ -83,6 +78,7 @@ margin-top:5px;
 100%{opacity:1;}
 }
 
+/* Dua */
 .dua,.tasbih{
 background:white;
 margin:12px;
@@ -92,8 +88,18 @@ box-shadow:0 5px 10px rgba(0,0,0,0.1);
 text-align:center;
 }
 
-.dua-ar{font-size:18px;direction:rtl;margin-bottom:6px;}
+.dua-ar{
+font-size:18px;
+direction:rtl;
+margin-bottom:5px;
+}
 
+.dua-en{
+font-size:14px;
+color:#555;
+}
+
+/* Tasbih */
 .tasbih-number{
 font-size:35px;
 font-weight:bold;
@@ -136,19 +142,13 @@ font-weight:bold;
 </div>
 
 <div class="box green">
-<div class="highlight">NEXT PRAYER</div>
-<div class="title" id="nextPrayer"></div>
-<div class="time" id="nextTime"></div>
-</div>
-
-<div class="box cream">
 <div class="title">SEHRI (Fajr)</div>
-<div class="time" id="fajrTime"></div>
+<div class="bigtime" id="fajrTime"></div>
 </div>
 
 <div class="box cream">
 <div class="title">IFTAR (Maghrib)</div>
-<div class="time" id="maghribTime"></div>
+<div class="bigtime" id="maghribTime"></div>
 </div>
 
 <div class="scroll-indicator">⬇ Scroll for More ⬇</div>
@@ -160,12 +160,18 @@ font-weight:bold;
 <div class="dua-ar">
 وَبِصَوْمِ غَدٍ نَّوَيْتُ مِنْ شَهْرِ رَمَضَانَ
 </div>
+<div class="dua-en">
+Wa bisawmi ghadinn nawaiytu min shahri Ramadan
+</div>
 </div>
 
 <div class="dua">
 <h3>Iftar Dua</h3>
 <div class="dua-ar">
 اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَيْكَ تَوَكَّلْتُ وَعَلَىٰ رِزْقِكَ أَفْطَرْتُ
+</div>
+<div class="dua-en">
+Allahumma inni laka sumtu wa bika aamantu wa alayka tawakkaltu wa ala rizqika aftartu
 </div>
 </div>
 
@@ -263,9 +269,6 @@ let [h,m]=p.time.split(":");
 d.setHours(h,m,0);
 return now<d;
 })||prayers[0];
-
-document.getElementById("nextPrayer").innerText=next.name;
-document.getElementById("nextTime").innerText=format12(next.time);
 
 document.getElementById("prayerList").innerHTML=
 prayers.map(p=>{
