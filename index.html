@@ -15,7 +15,7 @@ color:#103d2b;
 
 /* HERO */
 .hero{
-background:linear-gradient(#0f5132,#083c26);
+background:linear-gradient(#1b5e20,#0d3b12);
 color:white;
 padding:25px 15px;
 text-align:center;
@@ -23,31 +23,39 @@ position:relative;
 }
 
 .hero h1{margin:5px 0;font-size:22px;}
-.location,.liveClock,.date{font-size:14px;margin-top:4px;}
-.liveClock{font-weight:bold;}
+.location{font-size:14px;margin-top:4px;}
+
+.liveClock{
+font-size:26px;
+font-weight:bold;
+margin-top:6px;
+color:#ffd700;
+}
+
+.date{font-size:14px;margin-top:4px;}
 
 .moon{position:absolute;top:10px;left:15px;font-size:24px;}
 .palmL{position:absolute;bottom:5px;left:10px;font-size:32px;opacity:0.3;}
 .palmR{position:absolute;bottom:5px;right:10px;font-size:32px;opacity:0.3;}
 
-/* MAIN TIME BOXES */
+/* MAIN DARK GREEN BOX */
 .box{
 margin:12px;
-padding:18px;
+padding:20px;
 border-radius:18px;
 text-align:center;
+background:#064e3b;
+color:white;
+box-shadow:0 8px 20px rgba(0,0,0,0.3);
 }
-
-.green{background:#0f5132;color:white;}
-.cream{background:#fff3cd;color:#103d2b;}
 
 .title{font-size:16px;font-weight:bold;}
 .bigtime{font-size:34px;font-weight:bold;margin:6px 0;}
 
-/* PRAYER LIST */
+/* PRAYER LIST - BADAMI */
 .prayer-list{
 margin:12px;
-background:white;
+background:#f5e6c8;
 border-radius:15px;
 padding:15px;
 box-shadow:0 5px 10px rgba(0,0,0,0.1);
@@ -58,27 +66,26 @@ display:flex;
 justify-content:space-between;
 padding:8px 0;
 font-weight:bold;
-}
-
-.active{
-color:#d63384;
-font-size:17px;
+color:#1f2937;
 }
 
 /* Scroll Indicator */
 .scroll-indicator{
 text-align:center;
-font-size:14px;
-animation:blink 1.5s infinite;
+font-size:20px;
+font-weight:bold;
+color:#ff0000;
+margin:15px 0;
+animation:bounce 1.2s infinite;
 }
 
-@keyframes blink{
-0%{opacity:1;}
-50%{opacity:0.3;}
-100%{opacity:1;}
+@keyframes bounce{
+0%{transform:translateY(0);}
+50%{transform:translateY(8px);}
+100%{transform:translateY(0);}
 }
 
-/* Dua */
+/* Dua & Tasbih */
 .dua,.tasbih{
 background:white;
 margin:12px;
@@ -88,18 +95,9 @@ box-shadow:0 5px 10px rgba(0,0,0,0.1);
 text-align:center;
 }
 
-.dua-ar{
-font-size:18px;
-direction:rtl;
-margin-bottom:5px;
-}
+.dua-ar{font-size:18px;direction:rtl;margin-bottom:5px;}
+.dua-en{font-size:14px;color:#555;}
 
-.dua-en{
-font-size:14px;
-color:#555;
-}
-
-/* Tasbih */
 .tasbih-number{
 font-size:35px;
 font-weight:bold;
@@ -141,14 +139,9 @@ font-weight:bold;
 <div class="date" id="ramadanDay"></div>
 </div>
 
-<div class="box green">
-<div class="title">SEHRI (Fajr)</div>
-<div class="bigtime" id="fajrTime"></div>
-</div>
-
-<div class="box cream">
-<div class="title">IFTAR (Maghrib)</div>
-<div class="bigtime" id="maghribTime"></div>
+<div class="box">
+<div class="title" id="mainTitle"></div>
+<div class="bigtime" id="mainTime"></div>
 </div>
 
 <div class="scroll-indicator">⬇ Scroll for More ⬇</div>
@@ -157,22 +150,14 @@ font-weight:bold;
 
 <div class="dua">
 <h3>Sehri Dua</h3>
-<div class="dua-ar">
-وَبِصَوْمِ غَدٍ نَّوَيْتُ مِنْ شَهْرِ رَمَضَانَ
-</div>
-<div class="dua-en">
-Wa bisawmi ghadinn nawaiytu min shahri Ramadan
-</div>
+<div class="dua-ar">وَبِصَوْمِ غَدٍ نَّوَيْتُ مِنْ شَهْرِ رَمَضَانَ</div>
+<div class="dua-en">Wa bisawmi ghadinn nawaiytu min shahri Ramadan</div>
 </div>
 
 <div class="dua">
 <h3>Iftar Dua</h3>
-<div class="dua-ar">
-اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَيْكَ تَوَكَّلْتُ وَعَلَىٰ رِزْقِكَ أَفْطَرْتُ
-</div>
-<div class="dua-en">
-Allahumma inni laka sumtu wa bika aamantu wa alayka tawakkaltu wa ala rizqika aftartu
-</div>
+<div class="dua-ar">اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَيْكَ تَوَكَّلْتُ وَعَلَىٰ رِزْقِكَ أَفْطَرْتُ</div>
+<div class="dua-en">Allahumma inni laka sumtu wa bika aamantu wa alayka tawakkaltu wa ala rizqika aftartu</div>
 </div>
 
 <div class="tasbih">
@@ -182,12 +167,9 @@ Allahumma inni laka sumtu wa bika aamantu wa alayka tawakkaltu wa ala rizqika af
 <button onclick="resetTasbih()">Reset</button>
 </div>
 
-<footer>
-Developed & Owned by Arshad Khan
-</footer>
+<footer>Developed & Owned by Arshad Khan</footer>
 
 <script>
-
 function format12(time){
 let [h,m]=time.split(":");
 h=parseInt(h);
@@ -210,14 +192,8 @@ setInterval(updateClock,1000);
 updateClock();
 
 let tasbihCount=0;
-function increaseTasbih(){
-tasbihCount++;
-document.getElementById("tasbihCount").innerText=tasbihCount;
-}
-function resetTasbih(){
-tasbihCount=0;
-document.getElementById("tasbihCount").innerText=0;
-}
+function increaseTasbih(){tasbihCount++;document.getElementById("tasbihCount").innerText=tasbihCount;}
+function resetTasbih(){tasbihCount=0;document.getElementById("tasbihCount").innerText=0;}
 
 navigator.geolocation.getCurrentPosition(function(pos){
 
@@ -236,23 +212,30 @@ fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&metho
 .then(data=>{
 
 let t=data.data.timings;
+let now=new Date();
 
-let prayers=[
-{name:"Fajr",time:t.Fajr},
-{name:"Sunrise",time:t.Sunrise},
-{name:"Dhuhr",time:t.Dhuhr},
-{name:"Asr",time:t.Asr},
-{name:"Maghrib",time:t.Maghrib},
-{name:"Isha",time:t.Isha}
-];
+let fajrTime=new Date();let [fh,fm]=t.Fajr.split(":");fajrTime.setHours(fh,fm,0);
+let maghribTime=new Date();let [mh,mm]=t.Maghrib.split(":");maghribTime.setHours(mh,mm,0);
 
-document.getElementById("fajrTime").innerText=format12(t.Fajr);
-document.getElementById("maghribTime").innerText=format12(t.Maghrib);
+if(now < fajrTime){
+document.getElementById("mainTitle").innerText="SEHRI TIME";
+document.getElementById("mainTime").innerText=format12(t.Fajr);
+}
+else if(now >= fajrTime && now < maghribTime){
+document.getElementById("mainTitle").innerText="IFTAR TIME";
+document.getElementById("mainTime").innerText=format12(t.Maghrib);
+}
+else{
+document.getElementById("mainTitle").innerText="SEHRI TIME";
+document.getElementById("mainTime").innerText=format12(t.Fajr);
+}
+
+document.getElementById("prayerList").innerHTML=
+["Fajr","Sunrise","Dhuhr","Asr","Maghrib","Isha"]
+.map(p=>`<div class="prayer-item"><span>${p}</span><span>${format12(t[p])}</span></div>`).join("");
 
 document.getElementById("hijriDate").innerText=
-"📅 "+data.data.date.hijri.day+" "+
-data.data.date.hijri.month.en+" "+
-data.data.date.hijri.year+" AH";
+"📅 "+data.data.date.hijri.day+" "+data.data.date.hijri.month.en+" "+data.data.date.hijri.year+" AH";
 
 document.getElementById("gregorianDate").innerText=
 "📆 "+data.data.date.gregorian.date;
@@ -262,26 +245,9 @@ document.getElementById("ramadanDay").innerText=
 "🌙 Ramadan Day "+data.data.date.hijri.day;
 }
 
-let now=new Date();
-let next=prayers.find(p=>{
-let d=new Date();
-let [h,m]=p.time.split(":");
-d.setHours(h,m,0);
-return now<d;
-})||prayers[0];
-
-document.getElementById("prayerList").innerHTML=
-prayers.map(p=>{
-return `<div class="prayer-item ${p.name==next.name?'active':''}">
-<span>${p.name}</span>
-<span>${format12(p.time)}</span>
-</div>`
-}).join("");
-
 });
 
 });
-
 </script>
 
 </body>
