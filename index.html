@@ -13,30 +13,46 @@ background:#f4f1e8;
 color:#103d2b;
 }
 
-/* HERO */
+/* HERO OFF-WHITE */
 .hero{
-background:linear-gradient(#1b5e20,#0d3b12);
-color:white;
+background:#f8f6ef;
+color:#0f5132;
 padding:25px 15px;
 text-align:center;
 position:relative;
 }
 
 .hero h1{margin:5px 0;font-size:22px;}
+
 .location{font-size:14px;margin-top:4px;}
 
 .liveClock{
-font-size:26px;
+font-size:28px;
 font-weight:bold;
 margin-top:6px;
-color:#ffd700;
+color:#b8860b;
 }
 
 .date{font-size:14px;margin-top:4px;}
 
-.moon{position:absolute;top:10px;left:15px;font-size:24px;}
-.palmL{position:absolute;bottom:5px;left:10px;font-size:32px;opacity:0.3;}
-.palmR{position:absolute;bottom:5px;right:10px;font-size:32px;opacity:0.3;}
+.moon{
+position:absolute;
+top:10px;
+left:15px;
+font-size:28px;
+color:#0f5132;
+}
+
+.palmL,.palmR{
+position:absolute;
+bottom:5px;
+font-size:36px;
+color:#14532d;
+opacity:0.8;
+}
+
+.palmL{left:10px;}
+.palmR{right:10px;}
 
 /* MAIN DARK GREEN BOX */
 .box{
@@ -191,9 +207,20 @@ document.getElementById("liveClock").innerText=
 setInterval(updateClock,1000);
 updateClock();
 
-let tasbihCount=0;
-function increaseTasbih(){tasbihCount++;document.getElementById("tasbihCount").innerText=tasbihCount;}
-function resetTasbih(){tasbihCount=0;document.getElementById("tasbihCount").innerText=0;}
+/* Tasbih Memory */
+let tasbihCount=localStorage.getItem("tasbih")||0;
+document.getElementById("tasbihCount").innerText=tasbihCount;
+
+function increaseTasbih(){
+tasbihCount++;
+localStorage.setItem("tasbih",tasbihCount);
+document.getElementById("tasbihCount").innerText=tasbihCount;
+}
+function resetTasbih(){
+tasbihCount=0;
+localStorage.setItem("tasbih",0);
+document.getElementById("tasbihCount").innerText=0;
+}
 
 navigator.geolocation.getCurrentPosition(function(pos){
 
@@ -212,23 +239,43 @@ fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&metho
 .then(data=>{
 
 let t=data.data.timings;
+
+function updateMainBox(){
 let now=new Date();
 
-let fajrTime=new Date();let [fh,fm]=t.Fajr.split(":");fajrTime.setHours(fh,fm,0);
-let maghribTime=new Date();let [mh,mm]=t.Maghrib.split(":");maghribTime.setHours(mh,mm,0);
+let fajr=new Date();
+let [fh,fm]=t.Fajr.split(":");
+fajr.setHours(fh,fm,0);
 
-if(now < fajrTime){
-document.getElementById("mainTitle").innerText="SEHRI TIME";
-document.getElementById("mainTime").innerText=format12(t.Fajr);
+let maghrib=new Date();
+let [mh,mm]=t.Maghrib.split(":");
+maghrib.setHours(mh,mm,0);
+
+let target,title,timeText;
+
+if(now < fajr){
+target=fajr; title="SEHRI TIME"; timeText=format12(t.Fajr);
 }
-else if(now >= fajrTime && now < maghribTime){
-document.getElementById("mainTitle").innerText="IFTAR TIME";
-document.getElementById("mainTime").innerText=format12(t.Maghrib);
+else if(now >= fajr && now < maghrib){
+target=maghrib; title="IFTAR TIME"; timeText=format12(t.Maghrib);
 }
 else{
-document.getElementById("mainTitle").innerText="SEHRI TIME";
-document.getElementById("mainTime").innerText=format12(t.Fajr);
+fajr.setDate(fajr.getDate()+1);
+target=fajr; title="SEHRI TIME"; timeText=format12(t.Fajr);
 }
+
+let diff=target-now;
+let h=Math.floor(diff/(1000*60*60));
+let m=Math.floor((diff%(1000*60*60))/(1000*60));
+let s=Math.floor((diff%(1000*60))/1000);
+
+document.getElementById("mainTitle").innerText=
+title+" ( "+h+"h "+m+"m "+s+"s )";
+document.getElementById("mainTime").innerText=timeText;
+}
+
+updateMainBox();
+setInterval(updateMainBox,1000);
 
 document.getElementById("prayerList").innerHTML=
 ["Fajr","Sunrise","Dhuhr","Asr","Maghrib","Isha"]
