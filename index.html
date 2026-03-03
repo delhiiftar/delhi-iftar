@@ -1,48 +1,67 @@
 <!DOCTYPE html>
 <html>
 <head>
+<meta charset="UTF-8">
+<title>Ramadan Live Pro</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramadan Time</title>
 
 <style>
-
 body{
 margin:0;
-font-family:Arial, sans-serif;
-background:#f4f1e6;
+font-family:Arial;
+background:linear-gradient(#f6f1d3,#ffffff);
 text-align:center;
+overflow-x:hidden;
 }
 
-/* HEADER */
-.header{
-padding:20px;
-background:#f4f1e6;
+/* HERO */
+.hero{
+position:relative;
+padding:40px 10px 20px 10px;
+background:linear-gradient(#14532d,#1b5e20);
+color:white;
+overflow:hidden;
 }
 
-.header h1{
-font-size:32px;
-color:#1b5e20;
-margin:5px 0;
+.palm{
+position:absolute;
+font-size:70px;
+bottom:0;
 }
+
+.left1{left:5%;}
+.left2{left:12%;}
+.left3{left:19%;}
+.right1{right:5%;}
+.right2{right:12%;}
+.right3{right:19%;}
 
 .live{
-color:#00b894;
-font-size:20px;
+display:inline-block;
+padding:6px 18px;
+background:#00c853;
+border-radius:20px;
+animation:bounce 1.5s infinite;
 font-weight:bold;
 }
 
+@keyframes bounce{
+0%{transform:translateY(0);}
+50%{transform:translateY(-6px);}
+100%{transform:translateY(0);}
+}
+
 #clock{
-color:#000;
+font-size:22px;
+margin-top:8px;
 }
 
 .date{
 font-size:16px;
-font-weight:bold;
 margin-top:5px;
 }
 
-/* BOXES */
-
+/* COUNTDOWN BOX */
 .container{
 display:flex;
 flex-direction:column;
@@ -51,91 +70,129 @@ margin:20px;
 }
 
 .box{
+padding:20px;
+border-radius:15px;
 color:white;
-padding:25px;
-border-radius:20px;
 }
 
-#iftarBox{
-background:#1b5e20;
+#iftarBox{background:#2e7d32;}
+#sehriBox{background:#00695c;}
+
+.time{font-size:35px;font-weight:bold;}
+.countdown{margin-top:10px;}
+
+/* NOTEBOOK */
+.notebook{
+margin:20px;
+padding:20px;
+background:white;
+border-radius:15px;
+box-shadow:0 0 10px rgba(0,0,0,0.2);
 }
 
-#sehriBox{
-background:#004d40;
+.namaz{
+display:flex;
+justify-content:space-between;
+padding:8px;
+border-radius:8px;
+margin:5px 0;
+color:white;
 }
 
-.time{
-font-size:40px;
-font-weight:bold;
-}
-
-.countdown{
-margin-top:10px;
-font-size:18px;
-}
+.fajr{background:#4e73df;}
+.dhuhr{background:#e83e8c;}
+.asr{background:#fd7e14;}
+.maghrib{background:#20c997;}
+.isha{background:#6f42c1;}
 
 /* DUA */
-
 .dua{
-margin:30px 20px;
+margin:40px 20px;
 }
 
 .arabic{
-font-size:24px;
+font-size:26px;
 font-weight:bold;
 direction:rtl;
-margin:15px 0;
+margin:10px 0;
 }
 
 .english{
 font-size:18px;
-margin-bottom:20px;
+margin-bottom:25px;
 }
 
-/* OWNER */
-
-.owner{
-margin:60px 0;
-font-size:18px;
+/* TASBIH */
+.tasbih{
+margin:30px;
 }
 
-.owner span{
-font-size:24px;
+.counter{
+font-size:40px;
+margin:10px;
+}
+
+/* SCROLL OWNER */
+.scroll{
+position:fixed;
+bottom:0;
+width:100%;
+background:#14532d;
+color:white;
 font-weight:bold;
-letter-spacing:2px;
+padding:10px;
+animation:scroll 12s linear infinite;
 }
 
+@keyframes scroll{
+0%{transform:translateX(100%);}
+100%{transform:translateX(-100%);}
+}
 </style>
 </head>
 
 <body>
 
-<div class="header">
+<div class="hero">
+<div class="palm left1">🌴</div>
+<div class="palm left2">🌴</div>
+<div class="palm left3">🌴</div>
+<div class="palm right1">🌴</div>
+<div class="palm right2">🌴</div>
+<div class="palm right3">🌴</div>
+
 <h1>Ramadan Mubarak</h1>
-<div class="live">🟢 LIVE <span id="clock"></span></div>
+<div class="live">🟢 LIVE</div>
+<div id="clock"></div>
 <div class="date" id="engDate"></div>
 <div class="date" id="hijriDate"></div>
 </div>
 
 <div class="container">
-
 <div id="iftarBox" class="box">
 <h2>IFTAR TIME</h2>
-<div class="time" id="iftarTime">--:--</div>
+<div class="time" id="iftarTime"></div>
 <div class="countdown" id="iftarCountdown"></div>
 </div>
 
 <div id="sehriBox" class="box">
 <h2>SEHRI TIME</h2>
-<div class="time" id="sehriTime">--:--</div>
+<div class="time" id="sehriTime"></div>
 <div class="countdown" id="sehriCountdown"></div>
 </div>
+</div>
 
+<div class="notebook">
+<h3>Namaz Time Table</h3>
+<div class="namaz fajr"><span>Fajr</span><span id="fajr"></span></div>
+<div class="namaz dhuhr"><span>Dhuhr</span><span id="dhuhr"></span></div>
+<div class="namaz asr"><span>Asr</span><span id="asr"></span></div>
+<div class="namaz maghrib"><span>Maghrib</span><span id="maghrib"></span></div>
+<div class="namaz isha"><span>Isha</span><span id="isha"></span></div>
 </div>
 
 <div class="dua">
-
-<h3>Sehri Dua</h3>
+<h2>Sehri Dua</h2>
 <div class="arabic">
 وَبِصَوْمِ غَدٍ نَوَيْتُ مِنْ شَهْرِ رَمَضَانَ
 </div>
@@ -143,9 +200,7 @@ letter-spacing:2px;
 Wa bisawmi ghadin nawaiytu min shahri Ramadan
 </div>
 
-<hr>
-
-<h3>Iftar Dua</h3>
+<h2>Iftar Dua</h2>
 <div class="arabic">
 اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَيْكَ تَوَكَّلْتُ
 </div>
@@ -153,131 +208,108 @@ Wa bisawmi ghadin nawaiytu min shahri Ramadan
 Allahumma inni laka sumtu wa bika aamantu wa 'alayka tawakkaltu
 </div>
 
+<button onclick="playDua()">🔊 Play Arabic Dua</button>
+<audio id="duaAudio">
+<source src="https://cdn.islamic.network/audio/quran/ahmedajamy/1.mp3">
+</audio>
 </div>
 
-<div class="owner">
-Developed & Owned By<br>
-<span>ARSHAD KHAN</span>
+<div class="tasbih">
+<h3>Tasbih Counter</h3>
+<div class="counter" id="count">0</div>
+<button onclick="tasbih()">TAP</button>
+<button onclick="reset()">RESET</button>
+<audio id="clickSound">
+<source src="https://www.soundjay.com/button/beep-07.wav">
+</audio>
+</div>
+
+<div class="scroll">
+DEVELOPED & OWNED BY ARSHAD KHAN
 </div>
 
 <script>
+let lat,lon,data,count=0;
 
-let lat, lon, prayerData;
-
-function format12(time){
-return new Date("1970-01-01T"+time)
+function format12(t){
+return new Date("1970-01-01T"+t)
 .toLocaleTimeString([],{
-hour:'numeric',
-minute:'numeric',
-hour12:true
-});
+hour:'numeric',minute:'numeric',hour12:true});
 }
 
 function updateClock(){
 let now=new Date();
-
-document.getElementById("clock").innerText=
-now.toLocaleTimeString([],{
-hour:'numeric',
-minute:'numeric',
-second:'numeric',
-hour12:true
-});
-
-document.getElementById("engDate").innerText=
-now.toLocaleDateString([],{
-weekday:'long',
-day:'numeric',
-month:'long',
-year:'numeric'
-});
+clock.innerText=now.toLocaleTimeString([],{
+hour:'numeric',minute:'numeric',second:'numeric',hour12:true});
+engDate.innerText=now.toDateString();
 }
 setInterval(updateClock,1000);
-updateClock();
 
-navigator.geolocation.getCurrentPosition(pos=>{
-lat=pos.coords.latitude;
-lon=pos.coords.longitude;
-loadData();
-});
-
-function loadData(){
-
+navigator.geolocation.getCurrentPosition(p=>{
+lat=p.coords.latitude;
+lon=p.coords.longitude;
 fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`)
-.then(res=>res.json())
-.then(data=>{
+.then(r=>r.json())
+.then(d=>{
+data=d.data.timings;
+hijriDate.innerText=d.data.date.hijri.date+" AH";
 
-prayerData=data.data.timings;
+fajr.innerText=format12(data.Fajr);
+dhuhr.innerText=format12(data.Dhuhr);
+asr.innerText=format12(data.Asr);
+maghrib.innerText=format12(data.Maghrib);
+isha.innerText=format12(data.Isha);
 
-document.getElementById("hijriDate").innerText=
-data.data.date.hijri.day+" "+
-data.data.date.hijri.month.en+" "+
-data.data.date.hijri.year+" AH";
-
-startCountdown();
-
+start();
+});
 });
 
-}
-
-function startCountdown(){
-
+function start(){
 setInterval(()=>{
-
 let now=new Date();
 
-let [fh,fm]=prayerData.Fajr.split(":");
-let fajr=new Date();
-fajr.setHours(fh,fm,0);
+let fajrT=new Date();
+let magT=new Date();
 
-let [mh,mm]=prayerData.Maghrib.split(":");
-let maghrib=new Date();
-maghrib.setHours(mh,mm,0);
+let [fh,fm]=data.Fajr.split(":");
+fajrT.setHours(fh,fm,0);
 
+let [mh,mm]=data.Maghrib.split(":");
+magT.setHours(mh,mm,0);
 
-// Sehri
-let sdiff=fajr-now;
-if(sdiff>0){
-let sh=Math.floor(sdiff/1000/60/60);
-let sm=Math.floor(sdiff/1000/60)%60;
-let ss=Math.floor(sdiff/1000)%60;
-document.getElementById("sehriTime").innerText=format12(prayerData.Fajr);
-document.getElementById("sehriCountdown").innerText=
-sh+"h "+sm+"m "+ss+"s left";
-}else{
-document.getElementById("sehriCountdown").innerText="Sehri Closed";
-}
+if(now>fajrT) fajrT.setDate(fajrT.getDate()+1);
+if(now>magT) magT.setDate(magT.getDate()+1);
 
+sehriTime.innerText=format12(data.Fajr);
+iftarTime.innerText=format12(data.Maghrib);
 
-// Iftar
-let idiff=maghrib-now;
-if(idiff>0){
-let ih=Math.floor(idiff/1000/60/60);
-let im=Math.floor(idiff/1000/60)%60;
-let is=Math.floor(idiff/1000)%60;
-document.getElementById("iftarTime").innerText=format12(prayerData.Maghrib);
-document.getElementById("iftarCountdown").innerText=
-ih+"h "+im+"m "+is+"s left";
-}else{
-document.getElementById("iftarCountdown").innerText="Iftar Started";
-}
-
-
-// Auto Shift
-if(now > new Date(fajr.getTime()+10*60000)){
-document.getElementById("iftarBox").style.order="1";
-document.getElementById("sehriBox").style.order="2";
-}
-
-if(now > new Date(maghrib.getTime()+15*60000)){
-document.getElementById("sehriBox").style.order="1";
-document.getElementById("iftarBox").style.order="2";
-}
+sehriCountdown.innerText=timeDiff(fajrT-now);
+iftarCountdown.innerText=timeDiff(magT-now);
 
 },1000);
-
 }
 
+function timeDiff(diff){
+let h=Math.floor(diff/1000/60/60);
+let m=Math.floor(diff/1000/60)%60;
+let s=Math.floor(diff/1000)%60;
+return h+"h "+m+"m "+s+"s left";
+}
+
+function tasbih(){
+count++;
+document.getElementById("count").innerText=count;
+document.getElementById("clickSound").play();
+}
+
+function reset(){
+count=0;
+document.getElementById("count").innerText=0;
+}
+
+function playDua(){
+document.getElementById("duaAudio").play();
+}
 </script>
 
 </body>
