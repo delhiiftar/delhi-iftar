@@ -1,132 +1,176 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ramadan Ultimate Live</title>
+<title>Ramadan Live</title>
 
 <style>
-body{
-margin:0;
-font-family:Arial, sans-serif;
-background:#f5f1e6;
-text-align:center;
-transition:0.5s;
-}
+*{margin:0;padding:0;box-sizing:border-box;font-family:Arial}
 
-.day{
-background:#f5f1e6;
+body{
+background:#e8e3d5;
+text-align:center;
 color:#1b4332;
 }
 
-.night{
-background:#0b2e13;
-color:white;
+/* HERO SECTION */
+.hero{
+padding:25px 10px 60px 10px;
+position:relative;
 }
 
-.hero{
-padding:20px;
-position:relative;
+/* ROAD EFFECT */
+.road{
+position:absolute;
+bottom:0;
+left:0;
+width:100%;
+height:80px;
+background:#222;
+}
+
+.footpath{
+position:absolute;
+bottom:80px;
+width:100%;
+height:20px;
+background:#444;
 }
 
 .trees-left, .trees-right{
 position:absolute;
-top:20px;
+bottom:100px;
 display:flex;
 flex-direction:column;
-font-size:30px;
-opacity:0.7;
+gap:15px;
+font-size:40px;
 }
 
-.trees-left{ left:10px; }
-.trees-right{ right:10px; }
+.trees-left{left:10px}
+.trees-right{right:10px}
 
 .live{
-color:#00ff88;
-font-weight:bold;
+color:#00a86b;
 font-size:22px;
-animation:blink 2.5s infinite;
+font-weight:bold;
 }
 
-@keyframes blink{
-0%{opacity:1}
-50%{opacity:0.5}
-100%{opacity:1}
+#clock{color:#000}
+
+.date{
+font-size:16px;
+margin-top:5px;
 }
 
-#clock{ color:white; }
+.search-box{
+margin-top:10px;
+}
 
+input{
+padding:8px;
+width:180px;
+border-radius:6px;
+border:1px solid #ccc;
+}
+
+button{
+padding:8px 15px;
+border:none;
+border-radius:6px;
+background:#1b4332;
+color:white;
+}
+
+/* MAIN BOX */
 .mainbox{
+background:#1b5e20;
+color:white;
 margin:20px;
 padding:25px;
 border-radius:20px;
-background:#14532d;
-color:white;
+}
+
+.mainbox h2{
+font-size:26px;
 }
 
 .time{
 font-size:50px;
 font-weight:bold;
+margin:10px 0;
 }
 
 .countdown{
 color:#ffd166;
-margin-top:10px;
 }
 
-.scroll{
-color:#d00000;
-font-weight:bold;
-margin-top:15px;
-}
-
-.prayer, .calendar{
+/* NOTEBOOK STYLE PRAYER */
+.prayer{
 background:white;
 margin:20px;
-padding:15px;
+padding:20px;
 border-radius:15px;
-color:black;
+text-align:left;
 }
 
-.row{
+.prayer-row{
 display:flex;
 justify-content:space-between;
-padding:6px 0;
-border-bottom:1px solid #ddd;
+padding:8px 0;
+border-bottom:1px dashed #aaa;
+font-weight:bold;
 }
 
+.fajr{color:#2a9d8f}
+.dhuhr{color:#e76f51}
+.asr{color:#264653}
+.maghrib{color:#e63946}
+.isha{color:#6a4c93}
+
+/* DUA */
 .dua{
 background:white;
 margin:20px;
 padding:20px;
 border-radius:15px;
-font-size:22px;
+font-size:20px;
 }
 
+/* TASBEEH */
 .tasbeeh{
 margin:20px;
 }
 
-button{
-padding:10px 20px;
-border:none;
-border-radius:10px;
-background:#0f5132;
-color:white;
-margin:5px;
-}
-
-.footer-name{
+.footer{
 margin:40px 0;
-font-size:22px;
+font-size:24px;
 opacity:0.8;
 }
+
 </style>
 </head>
 
-<body class="day">
+<body>
 
 <div class="hero">
+
+<h1>🌙 Ramadan Mubarak</h1>
+
+<div id="location" style="font-size:20px;font-weight:bold;"></div>
+
+<div class="live">LIVE <span id="clock"></span></div>
+
+<div class="date" id="engDate"></div>
+<div class="date" id="hijriDate"></div>
+
+<div class="search-box">
+<input type="text" id="cityInput" placeholder="Enter City Name">
+<button onclick="searchCity()">Search</button>
+</div>
+
+<div class="footpath"></div>
+<div class="road"></div>
 
 <div class="trees-left">
 🌴
@@ -140,18 +184,6 @@ opacity:0.8;
 🌴
 </div>
 
-<h1>🌙 Ramadan Mubarak</h1>
-<div id="location">Detecting location...</div>
-
-<div class="live">
-LIVE <span id="clock"></span>
-</div>
-
-<div id="hijri"></div>
-
-<input type="text" id="manualCity" placeholder="Enter City Name">
-<button onclick="searchCity()">Search</button>
-
 </div>
 
 <div class="mainbox">
@@ -160,29 +192,31 @@ LIVE <span id="clock"></span>
 <div class="countdown" id="countdown"></div>
 </div>
 
-<div class="scroll">⬇ Scroll for More ⬇</div>
-
 <div class="prayer" id="prayerTimes"></div>
 
-<div class="calendar" id="calendar"></div>
-
 <div class="dua">
-<b>Sehri Dua:</b><br>
+<b>Sehri Dua (Arabic):</b><br>
 وَبِصَوْمِ غَدٍ نَّوَيْتُ مِنْ شَهْرِ رَمَضَانَ
 <br><br>
-<b>Iftar Dua:</b><br>
+<b>Sehri Dua (English):</b><br>
+I intend to keep the fast for tomorrow in the month of Ramadan.
+<br><br>
+<b>Iftar Dua (Arabic):</b><br>
 اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَبِكَ آمَنْتُ
+<br><br>
+<b>Iftar Dua (English):</b><br>
+O Allah! I fasted for You and I believe in You.
 </div>
 
 <div class="tasbeeh">
 <h3>Tasbeeh Counter</h3>
-<div id="count">0</div>
-<button onclick="increment()">Click</button>
+<div id="count" style="font-size:30px">0</div>
+<button onclick="inc()">Click</button>
 <button onclick="reset()">Reset</button>
 </div>
 
-<div class="footer-name">
-Created with ❤️ for Ramadan
+<div class="footer">
+Arshad Khan
 </div>
 
 <audio id="beep" src="https://www.soundjay.com/buttons/sounds/button-3.mp3"></audio>
@@ -192,61 +226,40 @@ Created with ❤️ for Ramadan
 
 let lat,lon,prayerData;
 
-setInterval(()=>{
+function updateClock(){
+let now=new Date();
 document.getElementById("clock").innerText=
-new Date().toLocaleTimeString();
-},1000);
+now.toLocaleTimeString('en-IN',{hour:'numeric',minute:'numeric',second:'numeric',hour12:true});
+document.getElementById("engDate").innerText=
+now.toLocaleDateString('en-IN',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
+}
+setInterval(updateClock,1000);
+updateClock();
 
-// Day Night Auto Theme
-function updateTheme(){
-let hour=new Date().getHours();
-if(hour>=18 || hour<=5){
-document.body.className="night";
-}else{
-document.body.className="day";
-}
-}
-setInterval(updateTheme,60000);
-updateTheme();
-
-// Tasbeeh
-let c=0;
-function increment(){
-c++;
-document.getElementById("count").innerText=c;
-document.getElementById("beep").play();
-}
-function reset(){
-c=0;
-document.getElementById("count").innerText=0;
-}
-
-// Location Auto
 navigator.geolocation.getCurrentPosition(pos=>{
 lat=pos.coords.latitude;
 lon=pos.coords.longitude;
-loadPrayer(lat,lon);
+loadData();
 });
 
-// Manual Search
 function searchCity(){
-let city=document.getElementById("manualCity").value;
+let city=document.getElementById("cityInput").value;
 fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${city}`)
 .then(res=>res.json())
 .then(data=>{
 lat=data[0].lat;
 lon=data[0].lon;
-loadPrayer(lat,lon);
+loadData();
 });
 }
 
-function loadPrayer(lat,lon){
+function loadData(){
 
 fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${lat}&lon=${lon}`)
 .then(res=>res.json())
 .then(data=>{
 document.getElementById("location").innerText=
-(data.address.city||data.address.state)+", "+data.address.country;
+(data.address.suburb||"")+" "+(data.address.city||data.address.state)+", "+data.address.country;
 });
 
 fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=2`)
@@ -255,62 +268,38 @@ fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&metho
 
 prayerData=data.data.timings;
 
-let hijri=data.data.date.hijri;
-document.getElementById("hijri").innerText=
-hijri.day+" Ramadan "+hijri.year+" AH";
+document.getElementById("hijriDate").innerText=
+data.data.date.hijri.day+" "+data.data.date.hijri.month.en+" "+data.data.date.hijri.year+" AH";
 
-let prayers=["Fajr","Dhuhr","Asr","Maghrib","Isha"];
-let html="";
-prayers.forEach(p=>{
-html+=`<div class="row"><span>${p}</span><span>${prayerData[p]}</span></div>`;
-});
+let html=`
+<div class="prayer-row fajr"><span>Fajr</span><span>${prayerData.Fajr}</span></div>
+<div class="prayer-row dhuhr"><span>Dhuhr</span><span>${prayerData.Dhuhr}</span></div>
+<div class="prayer-row asr"><span>Asr</span><span>${prayerData.Asr}</span></div>
+<div class="prayer-row maghrib"><span>Maghrib</span><span>${prayerData.Maghrib}</span></div>
+<div class="prayer-row isha"><span>Isha</span><span>${prayerData.Isha}</span></div>
+`;
+
 document.getElementById("prayerTimes").innerHTML=html;
 
-document.getElementById("calendar").innerHTML=
-"Hijri Month: "+hijri.month.en+" "+hijri.year;
-
-startMainLogic();
+startMain();
 
 });
 }
 
-function startMainLogic(){
+function startMain(){
 
 setInterval(()=>{
 
 let now=new Date();
-
-let [fh,fm]=prayerData.Fajr.split(":");
 let [mh,mm]=prayerData.Maghrib.split(":");
-
-let fajr=new Date();
 let maghrib=new Date();
-
-fajr.setHours(fh,fm,0);
 maghrib.setHours(mh,mm,0);
 
-let target,title,time;
+document.getElementById("mainTitle").innerText="IFTAR (Maghrib)";
+document.getElementById("mainTime").innerText=
+new Date("1970-01-01T"+prayerData.Maghrib).toLocaleTimeString('en-IN',{hour:'numeric',minute:'numeric',hour12:true});
 
-if(now<fajr){
-title="SEHRI (Fajr)";
-time=prayerData.Fajr;
-target=fajr;
-}
-else if(now<maghrib){
-title="IFTAR (Maghrib)";
-time=prayerData.Maghrib;
-target=maghrib;
-}
-else{
-title="SEHRI (Next Fajr)";
-time=prayerData.Fajr;
-target=new Date(fajr.getTime()+86400000);
-}
-
-document.getElementById("mainTitle").innerText=title;
-document.getElementById("mainTime").innerText=time;
-
-let diff=target-now;
+let diff=maghrib-now;
 let h=Math.floor(diff/1000/60/60);
 let m=Math.floor(diff/1000/60)%60;
 let s=Math.floor(diff/1000)%60;
@@ -324,6 +313,17 @@ document.getElementById("azan").play();
 
 },1000);
 
+}
+
+let c=0;
+function inc(){
+c++;
+document.getElementById("count").innerText=c;
+document.getElementById("beep").play();
+}
+function reset(){
+c=0;
+document.getElementById("count").innerText=0;
 }
 
 </script>
