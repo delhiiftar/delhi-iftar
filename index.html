@@ -1,64 +1,86 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Ramadan Live | Arshad Khan</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#f4f6f7;text-align:center;scroll-behavior:smooth;}
-
-.hero{
-background:linear-gradient(#0f2027,#203a43,#2c5364);
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#064e3b;
 color:white;
-padding:50px 20px 100px;
+text-align:center;
+scroll-behavior:smooth;
+}
+
+/* HERO */
+.hero{
+padding:25px 15px 70px;
+background:linear-gradient(180deg,#065f46,#022c22);
 position:relative;
 }
 
-.live{
-background:#00c853;
-display:inline-block;
-padding:6px 20px;
-border-radius:20px;
-margin:10px 0;
-font-weight:bold;
+.hero h2{
+margin:5px 0;
+font-size:26px;
 }
 
-#clock{font-size:26px;font-weight:bold;}
-.date{font-size:16px;margin-top:5px;}
+.big{
+font-size:20px;
+margin:4px 0;
+}
 
-.scroll{
+.live{
+display:inline-block;
+background:#00ff88;
+color:black;
+padding:5px 15px;
+border-radius:20px;
+font-weight:bold;
+animation:pulse 1.2s infinite;
+}
+
+@keyframes pulse{
+0%{opacity:1;}
+50%{opacity:.4;}
+100%{opacity:1;}
+}
+
+.arrow{
 position:absolute;
-bottom:15px;
+bottom:10px;
 left:50%;
 transform:translateX(-50%);
-font-size:26px;
+font-size:32px;
+color:white;
 animation:bounce 1.5s infinite;
 }
+
 @keyframes bounce{
 0%,100%{transform:translate(-50%,0);}
 50%{transform:translate(-50%,8px);}
 }
 
-.section{margin:25px;}
-
+/* TIME BOX */
+.section{margin:15px;}
 .box{
-background:#1b5e20;
-color:white;
-padding:20px;
-margin:15px 0;
-border-radius:12px;
+background:#047857;
+padding:15px;
+margin:10px 0;
+border-radius:10px;
 font-size:20px;
 }
-.box.iftar{background:#2e7d32;}
+.count{font-size:14px;margin-top:5px;}
 
-.count{font-size:15px;margin-top:5px;}
-
+/* NOTEBOOK STYLE */
 .card{
 background:white;
-margin:25px;
-padding:20px;
-border-radius:12px;
-box-shadow:0 0 8px rgba(0,0,0,.1);
+color:black;
+margin:15px;
+padding:15px;
+border-radius:10px;
+box-shadow:0 0 10px rgba(0,0,0,.3);
 }
 
 .row{
@@ -66,9 +88,15 @@ display:flex;
 justify-content:space-between;
 padding:8px;
 margin:5px 0;
-background:#eee;
 border-radius:6px;
+font-weight:bold;
 }
+
+.fajr{background:#dbeafe;}
+.dhuhr{background:#fed7aa;}
+.asr{background:#e9d5ff;}
+.maghrib{background:#fecaca;}
+.isha{background:#a7f3d0;}
 
 .arabic{
 direction:rtl;
@@ -77,33 +105,39 @@ font-weight:bold;
 margin:10px 0;
 }
 
-.counter{font-size:35px;margin:10px;}
-
-button{
-padding:6px 15px;
-margin:5px;
-border:none;
-background:#2e7d32;
-color:white;
-border-radius:6px;
-}
-
-.days{
+/* CALENDAR */
+.calendar{
 display:grid;
 grid-template-columns:repeat(7,1fr);
 gap:4px;
 }
-.day{padding:6px;background:#eee;border-radius:5px;}
-.today{background:#00c853;color:white;}
-
-.footer{
-background:#14532d;
-color:white;
+.day{
+background:#065f46;
 padding:6px;
-font-size:13px;
-position:fixed;
-bottom:0;
-width:100%;
+border-radius:4px;
+}
+.today{
+background:#00ff88;
+color:black;
+font-weight:bold;
+}
+
+/* TASBIH */
+.counter{font-size:32px;margin:10px;}
+button{
+padding:10px 25px;
+margin:5px;
+border:none;
+background:#047857;
+color:white;
+border-radius:8px;
+font-size:18px;
+}
+
+/* FOOTER */
+.footer{
+margin:30px 0 15px;
+font-size:14px;
 }
 </style>
 </head>
@@ -113,11 +147,10 @@ width:100%;
 <div class="hero">
 <h2>Ramadan Mubarak</h2>
 <div class="live">🟢 LIVE</div>
-<div id="clock"></div>
-<div class="date" id="engDate"></div>
-<div class="date" id="hijriDate"></div>
-<div class="date" id="city"></div>
-<a href="#content" class="scroll">⬇</a>
+<div class="big" id="clock"></div>
+<div class="big" id="engDate"></div>
+<div class="big" id="location">Detecting...</div>
+<a href="#content" class="arrow">⬇</a>
 </div>
 
 <div id="content">
@@ -129,7 +162,7 @@ SEHRI TIME
 <div class="count" id="sehriCount"></div>
 </div>
 
-<div class="box iftar">
+<div class="box">
 IFTAR TIME
 <div id="iftar"></div>
 <div class="count" id="iftarCount"></div>
@@ -138,19 +171,19 @@ IFTAR TIME
 
 <div class="card">
 <h3>5 Waqt Namaz</h3>
-<div class="row"><span>Fajr</span><span id="fajr"></span></div>
-<div class="row"><span>Dhuhr</span><span id="dhuhr"></span></div>
-<div class="row"><span>Asr</span><span id="asr"></span></div>
-<div class="row"><span>Maghrib</span><span id="maghrib"></span></div>
-<div class="row"><span>Isha</span><span id="isha"></span></div>
+<div class="row fajr"><span>Fajr</span><span id="fajr"></span></div>
+<div class="row dhuhr"><span>Dhuhr</span><span id="dhuhr"></span></div>
+<div class="row asr"><span>Asr</span><span id="asr"></span></div>
+<div class="row maghrib"><span>Maghrib</span><span id="maghrib"></span></div>
+<div class="row isha"><span>Isha</span><span id="isha"></span></div>
 </div>
 
 <div class="card">
 <h3>Sehri Dua</h3>
 <div class="arabic">
-وَبِصَوْمِ غَدٍ نَوَيْتُ أَنْ أَصُومَ مِنْ شَهْرِ رَمَضَانَ
+وَبِصَوْمِ غَدٍ نَوَيْتُ مِنْ شَهْرِ رَمَضَانَ
 </div>
-Wa bisawmi ghadin nawaiytu an asuma min shahri Ramadan
+Wa bisawmi ghadin nawaiytu min shahri Ramadan
 </div>
 
 <div class="card">
@@ -158,19 +191,12 @@ Wa bisawmi ghadin nawaiytu an asuma min shahri Ramadan
 <div class="arabic">
 اللَّهُمَّ إِنِّي لَكَ صُمْتُ وَبِكَ آمَنْتُ وَعَلَيْكَ تَوَكَّلْتُ وَعَلَىٰ رِزْقِكَ أَفْطَرْتُ
 </div>
-Allahumma inni laka sumtu wa bika aamantu wa ‘alayka tawakkaltu wa ‘ala rizqika aftartu
-</div>
-
-<div class="card">
-<h3>Ramadan Shayari</h3>
-Ramzan ka mahina barkat lekar aaya hai,<br>
-Har dil me Allah ka noor chhaya hai.
+Allahumma inni laka sumtu wa bika aamantu wa 'alayka tawakkaltu wa 'ala rizqika aftartu
 </div>
 
 <div class="card">
 <h3>Calendar</h3>
-<div id="month"></div>
-<div class="days" id="days"></div>
+<div class="calendar" id="calendar"></div>
 </div>
 
 <div class="card">
@@ -180,34 +206,48 @@ Har dil me Allah ka noor chhaya hai.
 <button onclick="reset()">RESET</button>
 </div>
 
+<div class="card">
+<h3>Feedback</h3>
+<p>Aap kahan se dekh rahe hain? Apna review bhejein:</p>
+<form action="https://formspree.io/f/mayvlzje" method="POST">
+<input type="text" name="name" placeholder="Your Name" required style="width:90%;padding:8px;"><br><br>
+<textarea name="message" placeholder="Your Message" required style="width:90%;padding:8px;"></textarea><br><br>
+<button type="submit">Send</button>
+</form>
+</div>
+
 </div>
 
 <div class="footer">
 DEVELOPED & OWNED BY ARSHAD KHAN
 </div>
 
+<audio id="clickSound">
+<source src="https://www.soundjay.com/buttons/sounds/button-16.mp3" type="audio/mpeg">
+</audio>
+
 <script>
 let fajrTime,maghribTime;
 
-function updateClock(){
+/* CLOCK 12H FORMAT */
+setInterval(()=>{
 let now=new Date();
-clock.innerText=now.toLocaleTimeString();
+clock.innerText=now.toLocaleTimeString('en-US',{hour:'numeric',minute:'numeric',second:'numeric',hour12:true});
 engDate.innerText=now.toDateString();
+},1000);
 
-fetch(`https://api.aladhan.com/v1/gToH?date=${now.getDate()}-${now.getMonth()+1}-${now.getFullYear()}`)
-.then(res=>res.json())
-.then(data=>{
-hijriDate.innerText=data.data.hijri.day+" "+data.data.hijri.month.en+" "+data.data.hijri.year+" AH";
-});
-}
-setInterval(updateClock,1000);
-updateClock();
+/* LOCATION + PRAYER */
+if(navigator.geolocation){
+navigator.geolocation.getCurrentPosition(pos=>{
+let lat=pos.coords.latitude;
+let lon=pos.coords.longitude;
 
-function load(lat,lon){
 fetch(`https://api.aladhan.com/v1/timings?latitude=${lat}&longitude=${lon}&method=1`)
 .then(res=>res.json())
 .then(data=>{
 let t=data.data.timings;
+location.innerText=data.data.meta.timezone.replace("_"," ");
+
 fajr.innerText=t.Fajr;
 dhuhr.innerText=t.Dhuhr;
 asr.innerText=t.Asr;
@@ -215,17 +255,14 @@ maghrib.innerText=t.Maghrib;
 isha.innerText=t.Isha;
 sehri.innerText=t.Fajr;
 iftar.innerText=t.Maghrib;
+
 fajrTime=t.Fajr;
 maghribTime=t.Maghrib;
-city.innerText=data.data.meta.timezone;
+});
 });
 }
 
-navigator.geolocation.getCurrentPosition(
-pos=>load(pos.coords.latitude,pos.coords.longitude),
-()=>load(28.6139,77.2090)
-);
-
+/* COUNTDOWN */
 setInterval(()=>{
 let now=new Date();
 function diff(time){
@@ -234,26 +271,32 @@ let [h,m]=time.split(":");
 t.setHours(h,m,0);
 if(t<now)t.setDate(t.getDate()+1);
 let d=t-now;
-return Math.floor(d/3600000)+"h "+Math.floor(d/60000)%60+"m "+Math.floor(d/1000)%60+"s left";
+return Math.floor(d/3600000)+"h "+
+Math.floor(d/60000)%60+"m "+
+Math.floor(d/1000)%60+"s left";
 }
 if(fajrTime)sehriCount.innerText=diff(fajrTime);
 if(maghribTime)iftarCount.innerText=diff(maghribTime);
 },1000);
 
-/* Calendar */
-let now=new Date();
-month.innerText=now.toLocaleString('default',{month:'long'})+" "+now.getFullYear();
-let first=new Date(now.getFullYear(),now.getMonth(),1).getDay();
-let total=new Date(now.getFullYear(),now.getMonth()+1,0).getDate();
-for(let i=0;i<first;i++)days.innerHTML+="<div></div>";
-for(let d=1;d<=total;d++){
-let cls=(d===now.getDate())?"day today":"day";
-days.innerHTML+=`<div class="${cls}">${d}</div>`;
+/* CALENDAR */
+let cal=new Date();
+let monthDays=new Date(cal.getFullYear(),cal.getMonth()+1,0).getDate();
+for(let i=1;i<=monthDays;i++){
+let cls=i===cal.getDate()?"day today":"day";
+calendar.innerHTML+=`<div class="${cls}">${i}</div>`;
 }
 
-/* Tasbih */
+/* TASBIH */
 let c=0;
-function tap(){c++;count.innerText=c;}
+let sound=document.getElementById("clickSound");
+function tap(){
+c++;
+count.innerText=c;
+sound.currentTime=0;
+sound.play();
+if(navigator.vibrate)navigator.vibrate(50);
+}
 function reset(){c=0;count.innerText=0;}
 </script>
 
